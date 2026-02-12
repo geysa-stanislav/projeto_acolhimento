@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Português de Acolhimento</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Um toque extra de estilo */
+        body { background-color: #f0f2f5; }
+        .card-aula { transition: transform 0.2s; border: none; border-radius: 15px; }
+        .card-aula:hover { transform: translateY(-5px); }
+        .header-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-0">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+                📚 Portal Acolhimento
+            </a>
+
+            <div class="d-flex align-items-center gap-3">
+                {% if user.is_authenticated %}
+                    <span class="text-white d-none d-md-block">
+                        Olá, {{ user.username|title }}!
+                    </span>
+                    <form action="{% url 'logout' %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-light btn-sm">Sair</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-light text-dark fw-bold btn-sm">
+                        Entrar 🔐
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-4">
+    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm border border-primary">
+        <div class="container-fluid py-2">
+            <h1 class="display-5 fw-bold text-primary">Precisa de ajuda com documentos? 🧭</h1>
+            <p class="col-md-8 fs-4">Preparamos um guia completo sobre CPF, SUS, Matrículas e muito mais.</p>
+            
+            <a href="{% url 'index_guia' %}" class="btn btn-primary btn-lg fw-bold">
+                Acessar Guia de Serviços ➜
+            </a>
+        </div>
+    </div>
+</div>
+
+    <div class="header-bg p-5 text-center mb-4">
+        <h1>🇧🇷 Bem-vindos!</h1>
+        <p class="lead">Aprenda português de forma simples.</p>
+    </div>
+
+    <div class="container">
+      <div class="row justify-content-center mb-5">
+        <div class="col-md-8">
+            <form action="{% url 'home' %}" method="GET" class="d-flex gap-2">
+                <input class="form-control form-control-lg" type="search" name="busca" placeholder="O que você quer aprender hoje?" aria-label="Pesquisar" value="{{ request.GET.busca }}">
+                <button class="btn btn-primary btn-lg px-4" type="submit">Pesquisar</button>
+                
+                {% if request.GET.busca %}
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg">✖</a>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+
+    {% if not licoes %}
+    <div class="alert alert-warning text-center">
+        Poxa, não encontramos nenhuma aula com esse termo. Tente outra palavra!
+    </div>
+    {% endif %}
+          {% for licao in licoes %}
+            <div class="col-md-4 mb-4">
+                
+                <div class="card card-aula h-100 shadow-sm {% if licao.data_lancamento > hoje %} opacity-75 bg-light {% endif %}">
+                    
+                    {% if licao.imagem %}
+                    <div style="position: relative;">
+                        <img src="{{ licao.imagem.url }}" class="card-img-top" 
+                             style="height: 200px; object-fit: cover; {% if licao.data_lancamento > hoje %} filter: grayscale(100%); {% endif %}">
+                        
+                        {% if licao.data_lancamento > hoje %}
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem;">
+                            🔒
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <div class="card-body">
+                        <small class="fw-bold {% if licao.data_lancamento > hoje %} text-danger {% else %} text-success {% endif %} mb-2 d-block">
+                            {% if licao.data_lancamento > hoje %}
+                                📅 Libera em: {{ licao.data_lancamento|date:"d/m/Y" }}
+                            {% else %}
+                                ✅ Disponível
+                            {% endif %}
+                        </small>
+
+                        <h5 class="card-title text-primary">{{ licao.titulo }}</h5>
+                        
+                        {% if licao.data_lancamento <= hoje %}
+                            <p class="card-text text-muted">{{ licao.conteudo|truncatewords:20 }}</p>
+                            
+                            <div class="d-grid gap-2 mt-3">
+                                <a href="{% url 'detalhe_licao' licao.id %}" class="btn btn-primary">
+                                    ▶ Acessar Aula
+                                </a>
+                                
+                                {% if licao.arquivo_pdf %}
+                                <a href="{{ licao.arquivo_pdf.url }}" target="_blank" class="btn btn-outline-danger btn-sm">
+                                    📄 Baixar Atividade (PDF)
+                                </a>
+                                {% endif %}
+                            </div>
+
+                        {% else %}
+                            <p class="card-text text-muted fst-italic mt-3">
+                                O conteúdo desta aula (vídeo e PDF) estará disponível na data agendada.
+                            </p>
+                            <div class="d-grid mt-3">
+                                <button disabled class="btn btn-secondary">
+                                    🔒 Aguarde a data
+                                </button>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+  </body>
+</html>
