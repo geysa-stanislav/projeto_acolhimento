@@ -4,12 +4,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 # Importamos as views da home e do login/cadastro
-from aulas.views import home, detalhe_licao, criar_conta
+from aulas.views import home, detalhe_licao, criar_conta # <--- Importe a view nova
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
+    path('cadastro/', criar_conta, name='signup'), # <--- Adicione essa linha
     # --- ROTA DA PÁGINA INICIAL ---
     path('', home, name='home'),
     
