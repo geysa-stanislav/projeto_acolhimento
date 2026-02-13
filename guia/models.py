@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+# 1. ADICIONE O IMPORT AQUI NO TOPO
+from ckeditor.fields import RichTextField 
 
 class Categoria(models.Model):
     nome = models.CharField(max_length=50)
@@ -9,7 +11,10 @@ class Categoria(models.Model):
 
 class Publicacao(models.Model):
     titulo = models.CharField(max_length=200)
-    conteudo = models.TextField()
+    
+    # 2. SUBSTITUA O TEXTFIELD PELO RICHTEXTFIELD AQUI
+    conteudo = RichTextField() 
+    
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     link_mapa = models.URLField(blank=True, null=True, help_text="Link do Google Maps")
     imagem = models.ImageField(upload_to='guia_imagens/', blank=True, null=True)
