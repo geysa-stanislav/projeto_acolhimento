@@ -140,3 +140,11 @@ MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 # Para onde ir depois do login?
 LOGIN_REDIRECT_URL = 'home'
+# ONDE ESTÁ A TELA DE LOGIN? (Aqui corrigimos o erro 404)
+LOGIN_URL = '/login/'
+
+# PRA ONDE VOU DEPOIS DE LOGAR? (Para a Home)
+LOGIN_REDIRECT_URL = '/'
+
+# PRA ONDE VOU DEPOIS DE SAIR? (De volta pro Login)
+LOGOUT_REDIRECT_URL = '/login/'
