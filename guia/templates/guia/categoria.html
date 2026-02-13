@@ -45,7 +45,7 @@
                         {% endif %}
                         
                         <div class="fs-5 text-secondary">
-                            {{ pub.conteudo|linebreaks }}
+                            {{ pub.conteudo|safe }}
                         </div>
 
                         {% if pub.link_mapa %}
