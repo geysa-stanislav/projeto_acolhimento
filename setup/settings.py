@@ -13,6 +13,7 @@ DEBUG = True
 # --- IMPORTANTE: LIBERA O ACESSO NA NUVEM ---
 ALLOWED_HOSTS = ['*']
 
+# No início do arquivo, nos apps instalados:
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -20,11 +21,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ckeditor',  # <--- Adicione esta linha
+    # Seus apps
     'aulas',
     'guia',
+    # CKEditor
+    'ckeditor',
+    'ckeditor_uploader', # <--- ADICIONE ESTA LINHA AQUI
 ]
 
+# ... (restante do código) ...
+
+# Lá no final do arquivo, logo abaixo do MEDIA_ROOT que fizemos antes, adicione:
+CKEDITOR_UPLOAD_PATH = "uploads/"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -102,3 +110,8 @@ LOGIN_REDIRECT_URL = '/'
 
 # PRA ONDE VOU DEPOIS DE SAIR? (De volta pro Login)
 LOGOUT_REDIRECT_URL = '/login/'
+
+# Configuração de Mídia (Imagens)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+CKEDITOR_UPLOAD_PATH = "uploads/"

@@ -4,12 +4,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 # Importamos as views da home e do login/cadastro
-from aulas.views import home, detalhe_licao, criar_conta # <--- Importe a view nova
+from aulas.views import home, detalhe_licao, criar_conta 
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('cadastro/', criar_conta, name='signup'), # <--- Adicione essa linha
+    
     # --- ROTA DA PÁGINA INICIAL ---
     path('', home, name='home'),
     
@@ -21,8 +21,13 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('cadastro/', criar_conta, name='cadastro'),
 
-    # --- ROTA DO GUIA (NOVA!) ---
-    # Tudo que for http://site/guia/... vai para o app guia
+    # --- ROTA DO GUIA ---
     path('guia/', include('guia.urls')),
+
+    # --- ROTA DO UPLOAD DO CKEDITOR (ADICIONE ESTA LINHA AQUI!) ---
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+]
     
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Configuração para servir mídia no ambiente de desenvolvimento
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
