@@ -10,9 +10,9 @@
   </head>
   <body class="bg-light">
 
-    <nav class="header-app mb-4" style="border-radius: 0; padding: 1.5rem;">
+    <nav class="header-app mb-4" style="background-color: #7b2cbf; border-radius: 0; padding: 1.5rem;">
         <div class="container">
-            <a class="text-white text-decoration-none fw-bold fs-5" href="/">
+            <a class="text-white text-decoration-none fw-bold fs-5" href="{% url 'home' %}">
                 ← Voltar para Lições
             </a>
         </div>
@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="texto-aula fs-5 lh-lg text-secondary mb-5">
-                    {{ licao.conteudo|linebreaks }}
+                    {{ licao.conteudo|safe }}
                 </div>
 
                 {% if licao.arquivo_pdf %}

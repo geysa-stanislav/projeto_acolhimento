@@ -4,7 +4,10 @@ from django.utils import timezone
 
 class Licao(models.Model):
     titulo = models.CharField(max_length=200)
-    conteudo = models.TextField()
+    
+    # CORREÇÃO: Aplicando o RichTextField aqui
+    conteudo = RichTextField() 
+    
     video_url = models.URLField(blank=True, null=True)
     imagem = models.ImageField(upload_to='imagens_licoes/', blank=True, null=True)
     arquivo_pdf = models.FileField(upload_to='atividades/', blank=True, null=True)

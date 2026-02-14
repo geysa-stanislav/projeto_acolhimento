@@ -1,19 +1,14 @@
 from pathlib import Path
 import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-+d!zub260ee^x@id!qwsvsn&5@9h9hkz1wvn&i31wz+e!!#xg3'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# --- IMPORTANTE: LIBERA O ACESSO NA NUVEM ---
 ALLOWED_HOSTS = ['*']
 
-# No início do arquivo, nos apps instalados:
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -24,15 +19,11 @@ INSTALLED_APPS = [
     # Seus apps
     'aulas',
     'guia',
-    # CKEditor
+    # CKEditor (Movimento 2)
     'ckeditor',
-    'ckeditor_uploader', # <--- ADICIONE ESTA LINHA AQUI
+    'ckeditor_uploader', 
 ]
 
-# ... (restante do código) ...
-
-# Lá no final do arquivo, logo abaixo do MEDIA_ROOT que fizemos antes, adicione:
-CKEDITOR_UPLOAD_PATH = "uploads/"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -48,7 +39,7 @@ ROOT_URLCONF = 'setup.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -62,7 +53,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'setup.wsgi.application'
 
-# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -70,48 +60,30 @@ DATABASES = {
     }
 }
 
-# Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS': {
-            'min_length': 4,
-        }
-    },
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', 'OPTIONS': {'min_length': 4}},
 ]
 
-# Internationalization
+# Configurações Regionais (UFMS/Campo Grande)
 LANGUAGE_CODE = 'pt-br'
-TIME_ZONE = 'America/Campo_Grande' # Deixei o correto
+TIME_ZONE = 'America/Campo_Grande'
 USE_I18N = True
 USE_TZ = True
 
-# --- CONFIGURAÇÃO DAS ROUPAS (CSS/STATIC) ---
+# Arquivos Estáticos e Mídia
 STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
-# A PASTA ONDE AS ROUPAS FICAM NA NUVEM (Importante!)
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# --- CONFIGURAÇÃO DE MÍDIA (FOTOS) ---
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# --- CONFIGURAÇÃO DE LOGIN (O que corrige o erro 404) ---
-# ONDE ESTÁ A TELA DE LOGIN?
+# Configuração do CKEditor
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+# URLs de Autenticação
 LOGIN_URL = '/login/'
-
-# PRA ONDE VOU DEPOIS DE LOGAR? (Para a Home)
 LOGIN_REDIRECT_URL = '/'
-
-# PRA ONDE VOU DEPOIS DE SAIR? (De volta pro Login)
 LOGOUT_REDIRECT_URL = '/login/'
 
-# Configuração de Mídia (Imagens)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-CKEDITOR_UPLOAD_PATH = "uploads/"
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
