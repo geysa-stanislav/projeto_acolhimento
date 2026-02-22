@@ -30,7 +30,7 @@
         }
 
         .navbar-custom { background-color: var(--azul-marinho); padding: 15px 5%; border-radius: 0 0 50% 10% / 0 0 40px 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .navbar-brand { font-family: 'Baloo 2', cursive; color: white !important; font-size: 1.8rem; font-weight: 800; }
+        .navbar-brand { font-family: 'Baloo 2', cursive; color: white !important; font-size: 1.8rem; font-weight: 800; text-decoration: none; }
         
         .hero-section { padding: 8% 5% 5% 5%; min-height: 50vh; }
         .hero-title { font-family: 'Baloo 2', cursive; color: var(--azul-marinho); font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px; }
@@ -131,24 +131,24 @@
     <div class="conteudo-fundo">
         
         {% if request.GET.busca %}
-    <h2 class="section-title">Resultados para "{{ request.GET.busca }}"</h2>
-    
-    {% if publicacoes %}
-        <h4 class="mt-4 mb-3" style="color: #1C3384;">Serviços Encontrados:</h4>
-        <div class="row g-3 mb-4">
-            {% for pub in publicacoes %}
-            <div class="col-md-6">
-                <a href="{% url 'detalhe_categoria' pub.categoria.id %}" class="text-decoration-none">
-                    <div class="card p-3 border-start border-primary border-4 shadow-sm">
-                        <h5 class="m-0 text-dark">{{ pub.titulo }}</h5>
-                        <small class="text-muted">Acessar informações ➜</small>
+            <section class="container mb-5">
+                <h2 class="section-title">Resultados para "{{ request.GET.busca }}"</h2>
+                
+                {% if publicacoes %}
+                    <h4 class="mt-4 mb-3" style="color: #1C3384;">Serviços Encontrados:</h4>
+                    <div class="row g-3 mb-4">
+                        {% for pub in publicacoes %}
+                        <div class="col-md-6">
+                            <a href="{% url 'detalhe_categoria' pub.categoria.id %}" class="text-decoration-none">
+                                <div class="card p-3 border-start border-primary border-4 shadow-sm">
+                                    <h5 class="m-0 text-dark">{{ pub.titulo }}</h5>
+                                    <small class="text-muted">Acessar informações ➜</small>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
                     </div>
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endif %}
+                {% endif %}
 
                 {% if licoes %}
                     <h4 class="fw-bold mb-3" style="color: var(--verde-escuro);"><i class="fa-solid fa-book-open"></i> Aulas Encontradas</h4>
@@ -183,37 +183,25 @@
                 {% endif %}
 
                 {% if not licoes and not publicacoes %}
-                <div class="alert alert-warning text-center rounded-4 shadow-sm fw-bold fs-5 p-4 mt-3" style="background-color: #FFF3CD; border: 2px solid #FFEEBA; color: #856404;">
-                    Poxa, não encontramos nada com a palavra "{{ request.GET.busca }}". Tente buscar por "CPF", "saúde" ou "verbos".
-                </div>
-            {% endif %}
+                    <div class="alert alert-warning text-center rounded-4 shadow-sm fw-bold fs-5 p-4 mt-3" style="background-color: #FFF3CD; border: 2px solid #FFEEBA; color: #856404;">
+                        Poxa, não encontramos nada com a palavra "{{ request.GET.busca }}". Tente buscar por "CPF", "saúde" ou "verbos".
+                    </div>
+                {% endif %}
+                
+            </section>
             
-        </section> {% else %} <section class="container mb-5">
-            <h2 class="section-title">Serviços Essenciais</h2>
-            <p class="section-subtitle">Encontre informações úteis sobre:</p>
-            <div class="row g-4">
-                <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-saude"><i class="fa-solid fa-heart-pulse"></i> <h3 class="card-title m-0">Saúde</h3></div><p class="card-text">Informações sobre SUS e postos.</p><a href="{% url 'index_guia' %}" class="btn-card bg-saude">Saiba mais</a></div></div>
-                <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-educacao"><i class="fa-solid fa-book"></i> <h3 class="card-title m-0">Educação</h3></div><p class="card-text">Matrículas e escolas próximas.</p><a href="{% url 'index_guia' %}" class="btn-card bg-educacao">Saiba mais</a></div></div>
-                <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-transporte"><i class="fa-solid fa-bus"></i> <h3 class="card-title m-0">Transporte</h3></div><p class="card-text">Rotas de ônibus e passes.</p><a href="{% url 'index_guia' %}" class="btn-card bg-transporte">Saiba mais</a></div></div>
-                <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-docs"><i class="fa-solid fa-id-card"></i> <h3 class="card-title m-0">Documentos</h3></div><p class="card-text">Emissão de CPF, RNE e vistos.</p><a href="{% url 'index_guia' %}" class="btn-card bg-docs">Saiba mais</a></div></div>
-            </div>
-        </section>
-        
-        ```
-
-### O pulo do gato:
-O problema no seu código era que tinha um `{% endif %}` **sobrando** antes do `{% else %}`. Garanta que o bloco que mostra a mensagem "Poxa, não encontramos nada" feche com apenas um `{% endif %}` e logo em seguida venha a `</section>` e o `{% else %}`.
-
-### Depois de arrumar no VSCode:
-1. `git add .`
-2. `git commit -m "Corrigindo bug do html"`
-3. `git push`
-
-**No terminal do PythonAnywhere:**
-1. `cd projeto_acolhimento`
-2. `git pull`
-
-Aperte **Reload** na aba Web e me diga se a tela amarela desapareceu e o site finalmente dominou o mundo! 🚀
+        {% else %}
+            
+            <section class="container mb-5">
+                <h2 class="section-title">Serviços Essenciais</h2>
+                <p class="section-subtitle">Encontre informações úteis sobre:</p>
+                <div class="row g-4">
+                    <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-saude"><i class="fa-solid fa-heart-pulse"></i> <h3 class="card-title m-0">Saúde</h3></div><p class="card-text">Informações sobre SUS e postos.</p><a href="{% url 'index_guia' %}" class="btn-card bg-saude">Saiba mais</a></div></div>
+                    <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-educacao"><i class="fa-solid fa-book"></i> <h3 class="card-title m-0">Educação</h3></div><p class="card-text">Matrículas e escolas próximas.</p><a href="{% url 'index_guia' %}" class="btn-card bg-educacao">Saiba mais</a></div></div>
+                    <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-transporte"><i class="fa-solid fa-bus"></i> <h3 class="card-title m-0">Transporte</h3></div><p class="card-text">Rotas de ônibus e passes.</p><a href="{% url 'index_guia' %}" class="btn-card bg-transporte">Saiba mais</a></div></div>
+                    <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-docs"><i class="fa-solid fa-id-card"></i> <h3 class="card-title m-0">Documentos</h3></div><p class="card-text">Emissão de CPF, RNE e vistos.</p><a href="{% url 'index_guia' %}" class="btn-card bg-docs">Saiba mais</a></div></div>
+                </div>
+            </section>
 
             <section id="aulas" class="container mb-2">
                 <h2 class="section-title laranja">Estudar Português</h2>
@@ -253,7 +241,10 @@ Aperte **Reload** na aba Web e me diga se a tela amarela desapareceu e o site fi
                     {% endfor %}
                 </div>
             </section>
-        {% endif %} <footer class="footer-custom">
+        
+        {% endif %}
+
+        <footer class="footer-custom">
             <div class="footer-logo">UEMS Acolhe</div>
             <div class="footer-links">
                 <a href="#">Sobre o projeto</a> | <a href="#">Contato</a>
