@@ -183,24 +183,37 @@
                 {% endif %}
 
                 {% if not licoes and not publicacoes %}
-                    <div class="alert alert-warning text-center rounded-4 shadow-sm fw-bold fs-5 p-4 mt-3" style="background-color: #FFF3CD; border: 2px solid #FFEEBA; color: #856404;">
-                        Poxa, não encontramos nada com a palavra "{{ request.GET.busca }}". Tente buscar por "CPF", "saúde" ou "verbos".
-                    </div>
-                {% endif %}
-                
-            </section>
-            
-        {% else %}
-            <section class="container mb-5">
-                <h2 class="section-title">Serviços Essenciais</h2>
-                <p class="section-subtitle">Encontre informações úteis sobre:</p>
-                <div class="row g-4">
-                    <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-saude"><i class="fa-solid fa-heart-pulse"></i> <h3 class="card-title m-0">Saúde</h3></div><p class="card-text">Informações sobre SUS e postos.</p><a href="{% url 'index_guia' %}" class="btn-card bg-saude">Saiba mais</a></div></div>
-                    <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-educacao"><i class="fa-solid fa-book"></i> <h3 class="card-title m-0">Educação</h3></div><p class="card-text">Matrículas e escolas próximas.</p><a href="{% url 'index_guia' %}" class="btn-card bg-educacao">Saiba mais</a></div></div>
-                    <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-transporte"><i class="fa-solid fa-bus"></i> <h3 class="card-title m-0">Transporte</h3></div><p class="card-text">Rotas de ônibus e passes.</p><a href="{% url 'index_guia' %}" class="btn-card bg-transporte">Saiba mais</a></div></div>
-                    <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-docs"><i class="fa-solid fa-id-card"></i> <h3 class="card-title m-0">Documentos</h3></div><p class="card-text">Emissão de CPF, RNE e vistos.</p><a href="{% url 'index_guia' %}" class="btn-card bg-docs">Saiba mais</a></div></div>
+                <div class="alert alert-warning text-center rounded-4 shadow-sm fw-bold fs-5 p-4 mt-3" style="background-color: #FFF3CD; border: 2px solid #FFEEBA; color: #856404;">
+                    Poxa, não encontramos nada com a palavra "{{ request.GET.busca }}". Tente buscar por "CPF", "saúde" ou "verbos".
                 </div>
-            </section>
+            {% endif %}
+            
+        </section> {% else %} <section class="container mb-5">
+            <h2 class="section-title">Serviços Essenciais</h2>
+            <p class="section-subtitle">Encontre informações úteis sobre:</p>
+            <div class="row g-4">
+                <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-saude"><i class="fa-solid fa-heart-pulse"></i> <h3 class="card-title m-0">Saúde</h3></div><p class="card-text">Informações sobre SUS e postos.</p><a href="{% url 'index_guia' %}" class="btn-card bg-saude">Saiba mais</a></div></div>
+                <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-educacao"><i class="fa-solid fa-book"></i> <h3 class="card-title m-0">Educação</h3></div><p class="card-text">Matrículas e escolas próximas.</p><a href="{% url 'index_guia' %}" class="btn-card bg-educacao">Saiba mais</a></div></div>
+                <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-transporte"><i class="fa-solid fa-bus"></i> <h3 class="card-title m-0">Transporte</h3></div><p class="card-text">Rotas de ônibus e passes.</p><a href="{% url 'index_guia' %}" class="btn-card bg-transporte">Saiba mais</a></div></div>
+                <div class="col-6 col-lg-3"><div class="card-custom"><div class="icon-box text-docs"><i class="fa-solid fa-id-card"></i> <h3 class="card-title m-0">Documentos</h3></div><p class="card-text">Emissão de CPF, RNE e vistos.</p><a href="{% url 'index_guia' %}" class="btn-card bg-docs">Saiba mais</a></div></div>
+            </div>
+        </section>
+        
+        ```
+
+### O pulo do gato:
+O problema no seu código era que tinha um `{% endif %}` **sobrando** antes do `{% else %}`. Garanta que o bloco que mostra a mensagem "Poxa, não encontramos nada" feche com apenas um `{% endif %}` e logo em seguida venha a `</section>` e o `{% else %}`.
+
+### Depois de arrumar no VSCode:
+1. `git add .`
+2. `git commit -m "Corrigindo bug do html"`
+3. `git push`
+
+**No terminal do PythonAnywhere:**
+1. `cd projeto_acolhimento`
+2. `git pull`
+
+Aperte **Reload** na aba Web e me diga se a tela amarela desapareceu e o site finalmente dominou o mundo! 🚀
 
             <section id="aulas" class="container mb-2">
                 <h2 class="section-title laranja">Estudar Português</h2>
