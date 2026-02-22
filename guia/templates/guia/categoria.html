@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ categoria.nome }} - UEMS Acolhe</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,7 +22,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--fundo-creme);
-            /* O SEU BACKGROUND AQUI */
+            /* Background idêntico ao da Home */
             background-image: url('{% static "imagens/fundos.png" %}');
             background-size: cover;
             background-position: top center;
@@ -29,7 +30,7 @@
             background-attachment: fixed;
         }
 
-        /* CABEÇALHO DA ONDINHA */
+        /* Cabeçalho com a ondinha babilônica */
         .navbar-custom {
             background-color: var(--azul-marinho);
             padding: 15px 5%;
@@ -39,25 +40,25 @@
         .navbar-brand { font-family: 'Baloo 2', cursive; color: white !important; font-size: 1.8rem; font-weight: 800; text-decoration: none;}
         .btn-voltar { font-weight: 700; border-radius: 30px; padding: 8px 20px; transition: 0.3s; }
 
-        /* FUNDO DE VIDRO PARA DAR LEITURA */
+        /* Fundo de vidro (Glassmorphism) para facilitar a leitura */
         .conteudo-fundo {
-            background: rgba(253, 249, 241, 0.90);
-            backdrop-filter: blur(5px);
-            border-radius: 40px;
-            padding: 40px 5%;
+            background: rgba(255, 255, 255, 0.92); 
+            backdrop-filter: blur(8px);
+            border-radius: 30px;
+            padding: 40px;
             margin: 40px auto;
             max-width: 900px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
         }
 
         h1 { font-family: 'Baloo 2', cursive; color: var(--azul-marinho); }
 
-        /* DEIXANDO A "SANFONA" (ACCORDION) MAIS BONITA */
+        /* Accordion Customizado */
         .accordion-item {
             border: none;
             border-radius: 15px !important;
             margin-bottom: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             overflow: hidden;
         }
         .accordion-button {
@@ -72,13 +73,14 @@
             color: var(--laranja-forte);
             box-shadow: none;
         }
-        .accordion-button:focus { box-shadow: none; border-color: rgba(0,0,0,0.1); }
+        .accordion-button:focus { box-shadow: none; }
+        
         .accordion-body {
             background-color: white;
-            color: #555;
-            font-size: 1rem;
-            line-height: 1.6;
-            padding: 20px;
+            color: #444;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            padding: 25px;
         }
     </style>
   </head>
@@ -86,20 +88,25 @@
 
     <nav class="navbar-custom d-flex justify-content-between align-items-center">
         <a class="navbar-brand m-0" href="{% url 'home' %}">UEMS Acolhe</a>
-        <a href="{% url 'index_guia' %}" class="btn btn-outline-light btn-voltar">← Voltar</a>
+        <a href="{% url 'index_guia' %}" class="btn btn-outline-light btn-voltar">
+            <i class="fa-solid fa-arrow-left"></i> Voltar
+        </a>
     </nav>
 
     <div class="container pb-5">
         <div class="conteudo-fundo">
             <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
-                <div style="font-size: 3rem;">
+                <div style="font-size: 3.5rem;">
                     {% if "Saúde" in categoria.nome %}🏥
                     {% elif "Doc" in categoria.nome %}🪪
                     {% elif "Edu" in categoria.nome %}🎓
                     {% elif "Trab" in categoria.nome %}💼
                     {% else %}📌{% endif %}
                 </div>
-                <h1 class="fw-bold m-0">{{ categoria.nome }}</h1>
+                <div>
+                    <h1 class="fw-bold m-0">{{ categoria.nome }}</h1>
+                    <p class="text-muted m-0">Informações e orientações essenciais</p>
+                </div>
             </div>
 
             {% if publicacoes %}
@@ -108,7 +115,7 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading{{ pub.id }}">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ pub.id }}" aria-expanded="false" aria-controls="collapse{{ pub.id }}">
-                            <i class="fa-solid fa-circle-check text-success me-2"></i> {{ pub.titulo }}
+                            <i class="fa-solid fa-circle-info text-primary me-2"></i> {{ pub.titulo }}
                         </button>
                     </h2>
                     <div id="collapse{{ pub.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ pub.id }}" data-bs-parent="#accordionCategoria">
@@ -120,8 +127,9 @@
                 {% endfor %}
             </div>
             {% else %}
-                <div class="alert alert-info text-center rounded-4 shadow-sm py-4 fw-bold">
-                    Ainda não há informações publicadas nesta categoria.
+                <div class="alert alert-info text-center rounded-4 shadow-sm py-5">
+                    <i class="fa-solid fa-circle-exclamation fs-2 mb-3 d-block"></i>
+                    <span class="fw-bold">Ainda não há informações publicadas nesta categoria.</span>
                 </div>
             {% endif %}
         </div>

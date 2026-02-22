@@ -1,46 +1,29 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login
-from django.utils import timezone
-import unicodedata # <--- NOSSA NOVA FERRAMENTA MÁGICA!
-
-from guia.models import Publicacao
+import unicodedata
+from django.shortcuts import render
 from .models import Licao
-from .forms import CadastroSeguroForm
+from guia.models import Publicacao 
+from django.utils import timezone
 
-# --- FUNÇÃO QUE ARRANCA ACENTOS E DEIXA TUDO MINÚSCULO ---
+# Função para ignorar acentos na busca
 def remover_acentos(texto):
-    if not texto:
-        return ""
-    # Transforma "Apresentação" em "apresentacao"
-    texto = unicodedata.normalize('NFKD', texto).encode('ASCII', 'ignore').decode('utf-8')
-    return texto.lower()
+    if not texto: return ""
+    return unicodedata.normalize('NFKD', texto).encode('ASCII', 'ignore').decode('utf-8').lower()
 
-# --- NOSSO CÉREBRO AGORA É 100% ACESSÍVEL ---
 def home(request):
     busca = request.GET.get('busca')
-    hoje = timezone.now().date() 
-    
+    hoje = timezone.now().date()
     if busca:
-        # 1. Limpa a palavra que o usuário digitou
         busca_limpa = remover_acentos(busca)
-        
-        # 2. Varre as Aulas ignorando acentos e letras maiúsculas/minúsculas
+        # Busca nas Aulas
         todas_licoes = Licao.objects.all()
-        licoes = [aula for aula in todas_licoes if busca_limpa in remover_acentos(aula.titulo) or busca_limpa in remover_acentos(aula.conteudo)]
-        
-        # 3. Varre o Guia de Serviços ignorando acentos e letras maiúsculas/minúsculas
+        licoes = [l for l in todas_licoes if busca_limpa in remover_acentos(l.titulo) or busca_limpa in remover_acentos(l.conteudo)]
+        # Busca no Guia de Serviços (ACHA O CARTÃO SUS AQUI)
         todas_pubs = Publicacao.objects.all()
-        publicacoes = [pub for pub in todas_pubs if busca_limpa in remover_acentos(pub.titulo) or busca_limpa in remover_acentos(pub.conteudo)]
+        publicacoes = [p for p in todas_pubs if busca_limpa in remover_acentos(p.titulo) or busca_limpa in remover_acentos(p.conteudo)]
     else:
-        # Se não pesquisou nada, mostra o padrão
         licoes = Licao.objects.all()
         publicacoes = None
-    
-    return render(request, 'home.html', {
-        'licoes': licoes, 
-        'publicacoes': publicacoes, 
-        'hoje': hoje
-    })
+    return render(request, 'home.html', {'licoes': licoes, 'publicacoes': publicacoes, 'hoje': hoje})
 
 # ... (aqui embaixo continua as suas funções licao_detalhe e cadastro, deixe elas como estão) ...
 def licao_detalhe(request, id):
