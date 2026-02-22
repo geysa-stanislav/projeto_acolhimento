@@ -1,40 +1,85 @@
+{% load static %}
 <!doctype html>
 <html lang="pt-br">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Guia de Serviços - Portal Acolhimento</title>
+    <title>Guia de Serviços - UEMS Acolhe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
-        body { background-color: #f0f2f5; }
-        .card-categoria { transition: transform 0.3s; border: none; border-radius: 15px; cursor: pointer; }
-        .card-categoria:hover { transform: translateY(-10px); background-color: #e9ecef; }
+        :root {
+            --azul-marinho: #1C3384;
+            --fundo-creme: #FDF9F1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--fundo-creme);
+            /* O mesmo background da Home! */
+            background-image: url('{% static "imagens/fundos.png" %}');
+            background-size: cover; 
+            background-position: top center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Barra com a ondinha */
+        .navbar-custom {
+            background-color: var(--azul-marinho);
+            padding: 15px 5%;
+            border-radius: 0 0 50% 10% / 0 0 40px 15px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-brand { font-family: 'Baloo 2', cursive; color: white !important; font-size: 1.8rem; font-weight: 800; text-decoration: none;}
+        
+        /* Fundo esfumaçado cobrindo a tela */
+        .conteudo-fundo { 
+            background: rgba(253, 249, 241, 0.85); 
+            backdrop-filter: blur(5px); 
+            border-radius: 40px 40px 0 0; 
+            padding: 40px 5% 60px 5%; 
+            margin-top: 40px;
+            min-height: 80vh; /* Faz o branco esticar até embaixo */
+        }
+
+        h1 { font-family: 'Baloo 2', cursive; color: var(--azul-marinho); }
+
+        /* Estilo dos Cards Consistente com a Home */
+        .card-categoria { 
+            background: white; border-radius: 20px; padding: 25px 20px; 
+            text-align: center; height: 100%; transition: 0.3s; border: none; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); cursor: pointer;
+        }
+        .card-categoria:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
         .emoji-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .card-title { font-family: 'Baloo 2', cursive; font-size: 1.5rem; font-weight: 800; color: var(--azul-marinho);}
+        
+        .btn-voltar { font-weight: 700; border-radius: 30px; padding: 8px 20px; transition: 0.3s; }
     </style>
   </head>
   <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="{% url 'home' %}">📚 Portal Acolhimento</a>
-            <div class="d-flex gap-3">
-                <a href="{% url 'home' %}" class="btn btn-outline-light btn-sm">⬅ Voltar para Aulas</a>
-            </div>
-        </div>
+    <nav class="navbar-custom d-flex justify-content-between align-items-center">
+        <a class="navbar-brand m-0" href="{% url 'home' %}">UEMS Acolhe</a>
+        <a href="{% url 'home' %}" class="btn btn-outline-light btn-voltar">← Voltar</a>
     </nav>
 
-    <div class="container">
-        <div class="text-center mb-5">
-            <h1 class="fw-bold text-primary">🧭 Guia de Serviços e Direitos</h1>
-            <p class="lead text-muted">Informações essenciais para facilitar sua vida no Brasil.</p>
-        </div>
+    <div class="conteudo-fundo">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h1 class="fw-bold">🧭 Guia de Serviços e Direitos</h1>
+                <p class="lead text-muted fw-bold">Informações essenciais para facilitar sua vida no Brasil.</p>
+            </div>
 
-        <div class="row">
-            {% for categoria in categorias %}
-            <div class="col-md-4 mb-4">
-                <a href="{% url 'detalhe_categoria' categoria.id %}" class="text-decoration-none text-dark">
-                    <div class="card card-categoria h-100 shadow-sm p-4 text-center">
-                        <div class="card-body">
+            <div class="row g-4 justify-content-center">
+                {% for categoria in categorias %}
+                <div class="col-md-6 col-lg-4">
+                    <a href="{% url 'detalhe_categoria' categoria.id %}" class="text-decoration-none text-dark">
+                        <div class="card-categoria">
                             <div class="emoji-icon">
                                 {% if "Saúde" in categoria.nome %}🏥
                                 {% elif "Doc" in categoria.nome %}🪪
@@ -42,13 +87,13 @@
                                 {% elif "Trab" in categoria.nome %}💼
                                 {% else %}📌{% endif %}
                             </div>
-                            <h3 class="card-title fw-bold">{{ categoria.nome }}</h3>
-                            <p class="text-muted small">Clique para ver informações.</p>
+                            <h3 class="card-title">{{ categoria.nome }}</h3>
+                            <p class="text-muted small fw-bold mt-2 mb-0">Clique para ver informações ➜</p>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
 

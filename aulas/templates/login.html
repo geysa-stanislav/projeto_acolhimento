@@ -4,48 +4,154 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Acesso Restrito</title>
+    <title>Entrar - UEMS Acolhe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-        body { background-color: #f0f2f5; display: flex; align-items: center; justify-content: center; height: 100vh; }
-        .card-login { max-width: 400px; width: 100%; border: none; border-radius: 15px; }
-        .btn-roxo { background-color: #6f42c1; color: white; }
-        .btn-roxo:hover { background-color: #59359a; color: white; }
+        /* --- CORES E ACESSIBILIDADE CORRIGIDAS --- */
+        :root {
+            --ref-navy: #1C3384;      /* Título Azul Marinho */
+            --ref-green: #377E51;     /* Botão Verde */
+            --ref-orange: #C05600;    /* Link Cadastrar (Mais escuro para contraste alto!) */
+            --ref-input-bg: #F9F9F9;  /* Fundo do Input */
+            --ref-input-border: #9CA3AF; /* Borda do input mais escura para melhor leitura */
+            --ref-text-black: #000007; 
+            
+            /* Variáveis que faltavam para a caixa branca aparecer */
+            --cor-caixa-fundo: rgba(255, 255, 255, 0.95); /* Branco sólido para contraste */
+            --cor-borda-caixa: #F3E8FF; /* Borda bem suave */
+            --cor-sombra-pop: rgba(0, 0, 0, 0.15); /* Sombra para destacar a caixa do fundo */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('{% static "imagens/fundos.png" %}');
+            background-size: cover;
+            background-position: center bottom;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: flex-start; 
+            padding: 50px 5% 50px 5%; /* Ajuste para não colar tanto */
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                justify-content: center;
+                padding: 20px;
+                align-items: flex-end;
+            }
+        }   
+
+        /* A CAIXA BRANCA CONSERTADA */
+        .card-login {
+            background-color: var(--cor-caixa-fundo); 
+            border: 2px solid var(--cor-borda-caixa); 
+            border-radius: 30px; 
+            box-shadow: 0 10px 30px var(--cor-sombra-pop); 
+            max-width: 500px; /* Mais larguinho para os textos grandes */
+            width: 100%; 
+            padding: 3rem; 
+            position: relative; 
+            z-index: 10;
+        }
+
+        h3 {
+            font-family: 'Baloo 2', cursive;
+            color: var(--ref-navy);
+            font-weight: 800; font-size: 2.8rem; /* Fonte Gigante */
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #4B5563; font-size: 1.1rem; font-weight: 600; /* Texto maior */
+            margin-bottom: 35px;
+        }
+
+        /* INPUTS ESTILO PÍLULA (Com textos maiores) */
+        .form-control {
+            border: 2px solid var(--ref-input-border); /* Borda mais grossa */
+            border-radius: 30px; 
+            padding: 18px 20px 18px 50px; 
+            font-weight: 600; font-size: 1.1rem; /* Texto maior para leitura */
+            background-color: var(--ref-input-bg);
+            color: #333; margin-bottom: 20px;
+            transition: 0.3s;
+        }
+        
+        /* Ícones */
+        input[name="username"] {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236B7280'%3e%3cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat; background-position: 18px center; background-size: 24px;
+        }
+        
+        input[name="password"] {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236B7280'%3e%3cpath d='M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat; background-position: 18px center; background-size: 24px;
+        }
+
+        .form-control:focus {
+            border-color: var(--ref-green); outline: none; background-color: #FFF;
+            box-shadow: 0 0 0 4px rgba(55, 126, 81, 0.1);
+        }
+
+        /* BOTÃO VERDE (Tamanho Família) */
+        .btn-acessar {
+            background-color: var(--ref-green);
+            color: white; border: none; border-radius: 30px;
+            font-weight: 800; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 1px;
+            padding: 16px; width: 100%; margin-top: 15px;
+            transition: 0.3s;
+        }
+        .btn-acessar:hover {
+            background-color: #2b613f; transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(55, 126, 81, 0.3);
+        }
+
+        /* LINKS INFERIORES MAIORES */
+        .texto-rodape { color: #4B5563; font-size: 1.1rem; font-weight: 500; margin-top: 25px; }
+        .link-cadastrar { color: var(--ref-orange); font-weight: 800; text-decoration: none; display: block; margin-top: 8px; font-size: 1.2rem;}
+        .link-cadastrar:hover { text-decoration: underline; color: #8a3e00; }
+        
+        .alert-danger {
+            background-color: #FEF2F2; color: #DC2626; border: 2px solid #FCA5A5;
+            border-radius: 15px; font-weight: 700; font-size: 1rem; padding: 12px; margin-bottom: 20px;
+        }
     </style>
   </head>
   <body>
 
-    <div class="card card-login shadow-lg p-4">
-        <div class="card-body text-center">
-            <h3 class="mb-4 fw-bold text-secondary">🔐 Área do Aluno</h3>
-            
-            <form method="POST" action="">
-               {% csrf_token %}
-               
-               {% if form.errors %}
-                   <div class="alert alert-danger p-2 small">Usuário ou senha incorretos!</div>
-               {% endif %}
+    <div class="card-login text-center">
+        <h3>Entrar</h3>
+        <p class="subtitle">Bem-vindo de volta! Por favor, faça login.</p>
+        
+        <form method="POST" action="">
+           {% csrf_token %}
+           
+           {% if form.errors and not form.non_field_errors %}
+               <div class="alert alert-danger">Usuário ou senha incorretos!</div>
+           {% endif %}
 
-               <div class="form-floating mb-3">
-                   <input type="text" name="username" class="form-control" id="id_username" placeholder="Usuário" required>
-                   <label for="id_username">Usuário</label>
-               </div>
-               
-               <div class="form-floating mb-3">
-                   <input type="password" name="password" class="form-control" id="id_password" placeholder="Senha" required>
-                   <label for="id_password">Senha</label>
-               </div>
+           {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+           {% endif %}
 
-               <button type="submit" class="btn btn-roxo w-100 py-2 fw-bold">Entrar no Sistema</button>
-            </form>
-            
-            <div class="mt-3 text-center">
-                <small>Não tem cadastro? <a href="{% url 'cadastro' %}" class="fw-bold">Crie sua conta aqui</a></small>
-            </div>
-            
-            <div class="mt-4">
-                <a href="/" class="text-decoration-none text-muted small">← Voltar para o site</a>
-            </div>
+           <input type="text" name="username" class="form-control" id="id_username" placeholder="Nome de usuário" required autocomplete="username">
+           
+           <input type="password" name="password" class="form-control" id="id_password" placeholder="Senha" required autocomplete="current-password">
+
+           <button type="submit" class="btn btn-acessar">Acessar</button>
+        </form>
+        
+        <div class="texto-rodape">
+            Não tem uma conta?
+            <a href="{% url 'cadastro' %}" class="link-cadastrar">Cadastrar</a>
         </div>
     </div>
 

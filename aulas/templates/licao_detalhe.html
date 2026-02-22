@@ -4,61 +4,98 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ licao.titulo }}</title>
+    <title>{{ licao.titulo }} - UEMS Acolhe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
-  </head>
-  <body class="bg-light">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <nav class="header-app mb-4" style="background-color: #7b2cbf; border-radius: 0; padding: 1.5rem;">
-        <div class="container">
-            <a class="text-white text-decoration-none fw-bold fs-5" href="{% url 'home' %}">
-                ← Voltar para Lições
-            </a>
-        </div>
+    <style>
+        :root {
+            --azul-marinho: #1C3384;
+            --verde-escuro: #377E51;
+            --fundo-creme: #FDF9F1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--fundo-creme);
+            /* O mesmo background da Home */
+            background-image: url('{% static "imagens/fundos.png" %}');
+            background-size: cover; 
+            background-position: top center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        /* Barra com a ondinha */
+        .navbar-custom {
+            background-color: var(--azul-marinho);
+            padding: 15px 5%;
+            border-radius: 0 0 50% 10% / 0 0 40px 15px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .navbar-brand { font-family: 'Baloo 2', cursive; color: white !important; font-size: 1.8rem; font-weight: 800; text-decoration: none;}
+        
+        /* O fundo esfumaçado para a leitura ficar perfeita */
+        .conteudo-fundo { 
+            background: rgba(253, 249, 241, 0.90); 
+            backdrop-filter: blur(5px); 
+            border-radius: 40px; 
+            padding: 40px 5%; 
+            margin: 40px auto;
+            max-width: 1000px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        h1 { font-family: 'Baloo 2', cursive; color: var(--azul-marinho); }
+        .btn-voltar { font-weight: 700; border-radius: 30px; padding: 8px 20px; transition: 0.3s; }
+    </style>
+  </head>
+  <body>
+
+    <nav class="navbar-custom d-flex justify-content-between align-items-center">
+        <a class="navbar-brand m-0" href="{% url 'home' %}">UEMS Acolhe</a>
+        <a href="{% url 'home' %}" class="btn btn-outline-light btn-voltar">← Voltar</a>
     </nav>
 
     <div class="container pb-5">
-        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
-            
-            {% if licao.video_url %}
-            <div class="ratio ratio-16x9">
-                <iframe src="{{ licao.get_video_embed }}" 
-                        title="YouTube video player" frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen></iframe>
-            </div>
-            {% elif licao.imagem %}
-                <img src="{{ licao.imagem.url }}" class="w-100" style="height: 300px; object-fit: cover;">
-            {% endif %}
-
-            <div class="card-body p-4 p-md-5">
-                <h1 class="fw-bold text-primary mb-3">{{ licao.titulo }}</h1>
-                
-                <div class="d-flex gap-2 mb-4">
-                    <span class="badge bg-success">Aula Liberada</span>
-                    <span class="badge bg-secondary">Lançamento: {{ licao.data_lancamento|date:"d/m/Y" }}</span>
+        <div class="conteudo-fundo">
+            <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
+                {% if licao.video_url %}
+                <div class="ratio ratio-16x9">
+                    <iframe src="{{ licao.get_video_embed }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-
-                <div class="texto-aula fs-5 lh-lg text-secondary mb-5">
-                    {{ licao.conteudo|safe }}
-                </div>
-
-                {% if licao.arquivo_pdf %}
-                <div class="card bg-light border-primary mb-3">
-                    <div class="card-body d-flex align-items-center justify-content-between flex-wrap gap-3">
-                        <div>
-                            <h5 class="mb-0 fw-bold text-primary">📂 Material Complementar</h5>
-                            <small class="text-muted">Baixe o PDF para fazer os exercícios desta aula.</small>
-                        </div>
-                        <a href="{{ licao.arquivo_pdf.url }}" target="_blank" class="btn btn-primary px-4 rounded-pill">
-                            Baixar PDF ⬇
-                        </a>
-                    </div>
-                </div>
+                {% elif licao.imagem %}
+                    <img src="{{ licao.imagem.url }}" class="w-100" style="height: 400px; object-fit: cover;">
                 {% endif %}
-
             </div>
+
+            <h1 class="fw-bold mb-3">{{ licao.titulo }}</h1>
+            
+            <div class="d-flex gap-2 mb-4">
+                <span class="badge" style="background-color: var(--verde-escuro); font-size: 0.9rem; padding: 8px 15px; border-radius: 20px;">✅ Aula Liberada</span>
+                <span class="badge bg-secondary" style="font-size: 0.9rem; padding: 8px 15px; border-radius: 20px;">📅 Lançamento: {{ licao.data_lancamento|date:"d/m/Y" }}</span>
+            </div>
+
+            <div class="texto-aula fs-5 lh-lg text-secondary mb-5" style="color: #444 !important;">
+                {{ licao.conteudo|safe }}
+            </div>
+
+            {% if licao.arquivo_pdf %}
+            <div class="card bg-white border-0 shadow-sm rounded-4 mt-4">
+                <div class="card-body d-flex align-items-center justify-content-between flex-wrap gap-3 p-4">
+                    <div>
+                        <h5 class="mb-1 fw-bold" style="color: var(--azul-marinho);"><i class="fa-regular fa-file-pdf text-danger"></i> Material Complementar</h5>
+                        <small class="text-muted">Baixe o PDF para fazer os exercícios desta aula.</small>
+                    </div>
+                    <a href="{{ licao.arquivo_pdf.url }}" target="_blank" class="btn text-white fw-bold px-4 py-2 rounded-pill shadow-sm" style="background-color: #dc3545; transition: 0.3s;">
+                        Baixar PDF ⬇
+                    </a>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
 

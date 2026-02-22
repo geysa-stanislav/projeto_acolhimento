@@ -1,34 +1,152 @@
+{% load static %}
 <!doctype html>
 <html lang="pt-br">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Criar Nova Conta</title>
+    <title>Criar Conta - UEMS Acolhe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f0f2f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .card-cadastro { max-width: 500px; width: 100%; border: none; border-radius: 15px; }
+
+ <style>
+        :root {
+            --cor-caixa-fundo: #FDF9F1; 
+            --cor-borda-caixa: #FF99DC; 
+            --cor-titulo: #0D0D55;      
+            --cor-input-borda: #0D0D55; 
+            --cor-input-foco: #FFD166;  
+            --cor-botao: #0D0D55;       
+            --cor-botao-hover: #06D6A0; 
+            --cor-sombra-pop: rgba(13, 13, 85, 0.3); 
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('{% static "imagens/fundos.png" %}');
+            background-size: cover;     
+            background-position: center; 
+            background-attachment: fixed; 
+            background-repeat: no-repeat;
+            
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center;      
+            justify-content: flex-start; 
+            
+            /* MUDANÇA AQUI: Mudei o último número (esquerda) de 10% para 3% */
+            /* Isso faz a caixa colar mais na borda esquerda e liberar a menina! */
+            padding: 50px 5% 50px 3%; 
+        }
+
+        @media (max-width: 768px) {
+            body {
+                justify-content: center;
+                padding: 20px;
+                align-items: flex-end;
+            }
+        }
+
+        .card-cadastro {
+            background-color: var(--cor-caixa-fundo); 
+            border: 4px solid var(--cor-borda-caixa); 
+            border-radius: 30px; 
+            box-shadow: 15px 15px 0px var(--cor-sombra-pop); 
+            
+            /* Mantive os 500px que deixaram o texto confortável */
+            max-width: 500px; 
+            width: 100%; 
+            padding: 2.5rem; 
+            position: relative; 
+            z-index: 10;
+        }
+
+        h3 {
+            font-family: 'Baloo 2', cursive; color: var(--cor-titulo);
+            font-weight: 800; font-size: 2.6rem; text-transform: uppercase;
+            text-align: center; margin-bottom: 0.2rem;
+        }
+        
+        .subtitle {
+            text-align: center; color: #060505; font-weight: 600; margin-bottom: 2rem; 
+            font-size: 1.1rem;
+        }
+
+        label { 
+            color: var(--cor-input-borda); font-weight: 800; 
+            margin-top: 15px; margin-bottom: 8px; display: block; 
+            font-size: 1.1rem;
+        }
+        
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%; border: 3px solid var(--cor-input-borda); 
+            border-radius: 15px; padding: 16px; font-weight: 600;
+            font-size: 1.1rem;
+            background-color: #FFFFFF; font-family: 'Inter', sans-serif;
+            transition: 0.3s;
+        }
+        
+        input:focus {
+            border-color: var(--cor-input-foco); 
+            box-shadow: 5px 5px 0px rgba(255, 209, 102, 0.5); outline: none;
+        }
+
+        .helptext { 
+            font-size: 0.9rem; font-weight: 700; color: #110f0f; 
+            background-color: #F1F5F9; border-left: 4px solid var(--cor-input-foco); 
+            padding: 12px; border-radius: 10px; display: block; margin-top: 8px;
+        }
+
+        ul.errorlist {
+            background-color: #FFDCE0; color: #D62828;
+            border: 2px solid #EF476F; border-radius: 10px;
+            padding: 12px 15px; font-weight: 700; margin-top: 8px;
+            list-style-type: none; font-size: 0.95rem;
+        }
+
+        .btn-roxo {
+            background-color: var(--cor-botao); color: white;
+            border: none; border-radius: 20px; font-weight: 800; text-transform: uppercase; 
+            letter-spacing: 1px; padding: 18px; margin-top: 25px; font-size: 1.2rem;
+            box-shadow: 5px 5px 0px var(--cor-sombra-pop); transition: 0.2s; width: 100%;
+        }
+        .btn-roxo:hover {
+            background-color: var(--cor-botao-hover);
+            transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--cor-sombra-pop);
+        }
+        
+        .link-login { color: var(--cor-titulo); font-weight: 700; text-decoration: none; font-size: 1.1rem;}
+        .link-login:hover { color: var(--cor-borda-caixa); text-decoration: underline; }
     </style>
   </head>
   <body>
 
-    <div class="card card-cadastro shadow-lg p-4">
-        <div class="card-body">
-            <h3 class="mb-4 fw-bold text-primary text-center">📝 Criar Conta</h3>
+    <div class="card-cadastro shadow-lg">
+        <h3>Criar Conta</h3>
+        <div class="subtitle">Portal de Acolhimento UEMS</div>
+        
+        <form method="POST" action="">
+            {% csrf_token %}
             
-            <form method="post">
-                {% csrf_token %}
-                
-                {{ form.as_p }}
-
-                <button type="submit" class="btn btn-success w-100 py-2 fw-bold mt-3">
-                    ✅ Confirmar Cadastro
-                </button>
-            </form>
+            {% for field in form %}
+                <div>
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small class="helptext">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <ul class="errorlist"><li>{{ error }}</li></ul>
+                    {% endfor %}
+                </div>
+            {% endfor %} 
             
-            <div class="mt-4 text-center">
-                <small>Já tem conta? <a href="{% url 'login' %}">Fazer Login</a></small>
-            </div>
+            <button type="submit" class="btn-roxo">Finalizar Cadastro</button>
+        </form>
+        
+        <div class="mt-3 text-center">
+            <small>Já tem uma conta? <a href="{% url 'login' %}" class="link-login">Entrar</a></small>
         </div>
     </div>
 
