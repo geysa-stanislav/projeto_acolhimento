@@ -5,11 +5,7 @@ def index_guia(request):
     categorias = Categoria.objects.all()
     return render(request, 'guia/index.html', {'categorias': categorias})
 
-# CÓDIGO CORRETO:
 def detalhe_categoria(request, id):
+    # Pega apenas a categoria clicada
     categoria = get_object_or_404(Categoria, id=id)
-    
-    # Agora ele filtra e pega SÓ as publicações que pertencem a essa categoria!
-    publicacoes = Publicacao.objects.filter(categoria=categoria) 
-    
-    return render(request, 'categoria.html', {'categoria': categoria, 'publicacoes': publicacoes})
+    return render(request, 'guia/categoria.html', {'categoria': categoria})

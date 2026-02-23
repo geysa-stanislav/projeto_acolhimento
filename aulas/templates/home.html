@@ -207,10 +207,19 @@
                 <h2 class="section-title">Serviços Essenciais</h2>
                 <p class="section-subtitle">Encontre informações úteis sobre:</p>
                 <div class="row g-4">
-    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-saude"><i class="fa-solid fa-heart-pulse"></i> <h3 class="card-title m-0">Saúde</h3></div><p class="card-text">Informações sobre SUS e postos.</p><a href="{% url 'index_guia' %}" class="btn-card bg-saude">Saiba mais</a></div></div>
-    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-educacao"><i class="fa-solid fa-book"></i> <h3 class="card-title m-0">Educação</h3></div><p class="card-text">Matrículas e escolas próximas.</p><a href="{% url 'index_guia' %}" class="btn-card bg-educacao">Saiba mais</a></div></div>
-    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-transporte"><i class="fa-solid fa-bus"></i> <h3 class="card-title m-0">Transporte</h3></div><p class="card-text">Rotas de ônibus e passes.</p><a href="{% url 'index_guia' %}" class="btn-card bg-transporte">Saiba mais</a></div></div>
-    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-docs"><i class="fa-solid fa-id-card"></i> <h3 class="card-title m-0">Documentos</h3></div><p class="card-text">Emissão de CPF, RNE e vistos.</p><a href="{% url 'index_guia' %}" class="btn-card bg-docs">Saiba mais</a></div></div>
+    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-saude"><i class="fa-solid fa-heart-pulse"></i> <h3 class="card-title m-0">Saúde</h3></div><p class="card-text">Informações sobre SUS e postos.</p><a href="{% url 'detalhe_categoria' 4 %}" class="btn-card bg-saude">Saiba mais</a></div></div>
+    
+    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-educacao"><i class="fa-solid fa-book"></i> <h3 class="card-title m-0">Educação</h3></div><p class="card-text">Matrículas e escolas próximas.</p><a href="{% url 'detalhe_categoria' 7 %}" class="btn-card bg-educacao">Saiba mais</a></div></div>
+    
+    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-transporte"><i class="fa-solid fa-bus"></i> <h3 class="card-title m-0">Transporte</h3></div><p class="card-text">Rotas de ônibus e passes.</p><a href="{% url 'detalhe_categoria' 6 %}" class="btn-card bg-transporte">Saiba mais</a></div></div>
+    
+    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-docs"><i class="fa-solid fa-id-card"></i> <h3 class="card-title m-0">Documentos</h3></div><p class="card-text">Emissão de CPF, RNE e vistos.</p><a href="{% url 'detalhe_categoria' 5 %}" class="btn-card bg-docs">Saiba mais</a></div></div>
+</div>
+
+<div class="text-center mt-5">
+    <a href="{% url 'index_guia' %}" class="btn-pill btn-laranja" style="font-size: 1.1rem; padding: 15px 35px;">
+        Ver todos os serviços <i class="fa-solid fa-arrow-right"></i>
+    </a>
 </div>
             </section>
 

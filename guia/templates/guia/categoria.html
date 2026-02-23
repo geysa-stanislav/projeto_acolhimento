@@ -109,9 +109,9 @@
                 </div>
             </div>
 
-            {% if publicacoes %}
+            {% if categoria.publicacao_set.all %}
             <div class="accordion" id="accordionCategoria">
-                {% for pub in publicacoes %}
+                {% for pub in categoria.publicacao_set.all %}
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading{{ pub.id }}">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ pub.id }}" aria-expanded="false" aria-controls="collapse{{ pub.id }}">
