@@ -3,13 +3,13 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Credenciais via variáveis de ambiente. Não expor secrets 
+# Credenciais via variáveis de ambiente. Não expor secrets
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'chave-insegura-apenas-para-desenvolvimento-local')
 
-# Nunca deixar DEBUG True em produção 
-DEBUG = False
+# Nunca deixar DEBUG True em produção
+DEBUG = True
 
-# Restringindo hosts (Substitua pelo seu endereço real do PythonAnywhere) 
+# Restringindo hosts (Substitua pelo seu endereço real do PythonAnywhere)
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'projetoacolhimento.pythonanywhere.com']
 
 INSTALLED_APPS = [
@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     'guia',
     # CKEditor
     'ckeditor',
-    'ckeditor_uploader', 
+    'ckeditor_uploader',
     'axes', # NOVO: Sistema de bloqueio de invasões
 ]
 
@@ -66,7 +66,7 @@ DATABASES = {
     }
 }
 
-# Implementar política de senha forte nativa do Django 
+# Implementar política de senha forte nativa do Django
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator', 'OPTIONS': {'min_length': 8}},

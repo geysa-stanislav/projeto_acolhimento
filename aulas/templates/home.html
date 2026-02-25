@@ -17,255 +17,32 @@
             --verde-escuro: #377E51;
             --laranja-forte: #F5821F;
             --fundo-creme: #FDF9F1;
-            --verde-musgo: #3A6B42; /* Nova cor para Saúde */
+            --verde-musgo: #3A6B42; 
         }
 
-        body {
+      body {
             font-family: 'Inter', sans-serif;
             background-color: var(--fundo-creme);
-            /* A linha da imagem está correta aqui */
             background-image: url('{% static "imagens/fundos.png" %}');
-            background-size: cover; 
-            background-position: top center;
+            background-size: 100% auto;
+            background-position: center bottom; /* Correção: ancorar na base por padrão */
             background-repeat: no-repeat;
-            background-attachment: fixed;
         }
 
+        /* --- RECUPERAMOS A BARRA AZUL QUE TINHA DESAPARECIDO --- */
         .navbar-custom { background-color: var(--azul-marinho); padding: 15px 5%; border-radius: 0 0 50% 10% / 0 0 40px 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .navbar-brand { font-family: 'Baloo 2', cursive; color: white !important; font-size: 1.8rem; font-weight: 800; text-decoration: none; }
-        
-        .hero-section { padding: 8% 5% 5% 5%; min-height: 50vh; }
-        .hero-title { font-family: 'Baloo 2', cursive; color: var(--azul-marinho); font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px; text-shadow: 0 0 15px rgba(255,255,255,0.9); }
+
+        /* --- EMPURRA A CAIXA BRANCA PARA BAIXO DAS CRIANÇAS --- */
+        .hero-section { padding: 8% 5% 5% 5%; min-height: 55vw; }
+
+        /* Correção: .hero-title movido para fora do @media para aplicar o azul no desktop também */
+        .hero-title { font-family: 'Baloo 2', cursive; color: #0d6efd; font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 15px; text-shadow: 0 0 15px rgba(255,255,255,0.9); }
         .hero-subtitle { font-size: 1.15rem; color: #0a0909; font-weight: 600; margin-bottom: 30px; max-width: 450px; text-shadow: 0 0 15px rgba(255,255,255,1), 0 0 5px rgba(255,255,255,0.8); }
-        
-        .search-bar-hero { background: white; border-radius: 30px; padding: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); max-width: 400px; }
-        .search-bar-hero input { border: none; background: transparent; box-shadow: none; font-weight: 600; padding-left: 20px; color: #111; }
-        .search-bar-hero input:focus { outline: none; box-shadow: none; }
-        .search-bar-hero input::placeholder { color: #555; font-weight: 500; }
-        
-        .btn-lupa { background-color: var(--verde-escuro); color: white; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border: none; transition: 0.3s; }
-        .btn-lupa:hover { background-color: #2b613f; transform: scale(1.05); }
 
-        .btn-pill { border-radius: 30px; font-weight: 700; padding: 12px 25px; font-size: 1rem; display: inline-flex; align-items: center; gap: 15px; border: none; transition: 0.3s; color: white; text-decoration: none; width: fit-content; }
-        .btn-laranja { background-color: var(--laranja-forte); }
-        .btn-laranja:hover { background-color: #d67438; color: rgb(255, 252, 252); transform: translateY(-3px); }
-        .btn-icon-outline { border: 1px solid rgba(255,255,255,0.5); border-radius: 50%; padding: 5px; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;}
-
-        .section-title { font-family: 'Baloo 2', cursive; font-size: 2rem; font-weight: 800; color: var(--verde-escuro); margin-bottom: 5px; }
-        .section-title.laranja { color: #D94814; }
-        .section-subtitle { color: #170909; font-size: 1.05rem; margin-bottom: 25px; font-weight: 600; }
-
-        .conteudo-fundo { background: rgba(253, 249, 241, 0.85); backdrop-filter: blur(5px); border-radius: 40px 40px 0 0; padding: 40px 5% 20px 5%; margin-top: 30px; }
-
-        .card-custom { background: white; border-radius: 20px; padding: 25px 20px; text-align: center; height: 100%; transition: 0.3s; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .card-custom:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        
-        .icon-box { display: inline-flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 15px;}
-        .icon-box i { font-size: 1.5rem; }
-        
-        /* AQUI ESTÁ A MUDANÇA DA COR */
-        .text-saude { color: var(--verde-musgo); } 
-        .text-educacao { color: #2c4988; } .text-transporte { color: #854510; } .text-docs { color: #412384; }
-
-        .card-title { font-family: 'Baloo 2', cursive; font-size: 1.4rem; font-weight: 800; }
-        .card-text { font-size: 0.95rem; color: #151313; margin-bottom: 20px; line-height: 1.5; font-weight: 500; }
-
-        .btn-card { border-radius: 20px; font-weight: 700; padding: 8px 0; text-decoration: none; color: white; display: block; width: 100%; transition: 0.3s;}
-        
-        /* AQUI TAMBÉM MUDAMOS O BOTÃO */
-        .bg-saude { background-color: var(--verde-musgo); } 
-        .bg-saude:hover{ background-color: #0d2f11; color:white;} /* Um musgo mais escuro no hover */
-        
-        .bg-educacao { background-color: #2c4988; } .bg-educacao:hover{ background-color: #3860b8; color:white;}
-        .bg-transporte { background-color: #854510; } .bg-transporte:hover{ background-color: #b3611d; color:white;}
-        .bg-docs { background-color: #412384; } .bg-docs:hover{ background-color: #6e46c7; color:white;}
-
-        .card-aula { border-radius: 20px; overflow: hidden; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; background: white;}
-        .card-aula:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
-        .card-aula img { height: 200px; object-fit: cover; width: 100%; }
-        .badge-status { background-color: var(--verde-escuro); color: white; padding: 6px 15px; border-radius: 15px; font-weight: 600; font-size: 0.85rem;}
-        
-        .btn-aula-azul { background-color: #0d6efd; color: white; border-radius: 20px; font-weight: 700; transition: 0.3s;}
-        .btn-aula-azul:hover { background-color: #0b5ed7; color: white;}
-        .btn-aula-pdf { border: 2px solid #dc3545; color: #dc3545; border-radius: 20px; font-weight: 700; transition: 0.3s; display: block; text-align: center; text-decoration: none; padding: 6px;}
-        .btn-aula-pdf:hover { background-color: #dc3545; color: white;}
-
-        .footer-custom { text-align: center; padding: 30px 15px; margin-top: 20px; border-top: 1px solid rgba(0,0,0,0.05); }
-        .footer-logo { font-family: 'Baloo 2', cursive; font-size: 1.5rem; font-weight: 800; color: var(--azul-marinho); margin-bottom: 5px; }
-        .footer-links { font-size: 0.95rem; font-weight: 600; color: #666; margin-bottom: 15px; }
-        .footer-links a { color: #221f1f; text-decoration: none; margin: 0 5px; transition: 0.3s; }
-        .footer-links a:hover { color: var(--laranja-forte); }
-        .social-icons a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.5rem; transition: 0.3s; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-        .social-icons a:hover { transform: scale(1.1); }
-    </style>
-  </head>
-  <body>
-
-    <nav class="navbar-custom d-flex justify-content-between align-items-center">
-        <a class="navbar-brand m-0" href="{% url 'home' %}">UEMS Acolhe</a>
-        <div class="d-flex align-items-center gap-3">
-            {% if user.is_authenticated %}
-                <span class="text-white d-none d-md-block" style="font-weight: 600;">Olá, {{ user.first_name|default:user.username|title }}!</span>
-                <form action="{% url 'logout' %}" method="post" class="d-inline">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-light btn-sm rounded-pill" style="font-weight: 700;">Sair</button>
-                </form>
-            {% else %}
-                <a href="{% url 'login' %}" class="btn btn-light text-dark fw-bold btn-sm rounded-pill px-3">Entrar 🔐</a>
-            {% endif %}
-        </div>
-    </nav>
-
-    <section class="hero-section container-fluid">
-        <div class="row">
-            <div class="col-md-7 col-lg-5">
-                <h1 class="hero-title">UEMS Acolhe</h1>
-                <p class="hero-subtitle">Portal de acolhimento, serviços e aulas de português para estudantes imigrantes</p>
-                
-                <div class="d-flex flex-column gap-3">
-                    <form action="{% url 'home' %}" method="GET" class="search-bar-hero d-flex align-items-center">
-                        <input type="text" name="busca" class="form-control w-100" placeholder="O que você procura?" value="{{ request.GET.busca }}">
-                        <button type="submit" class="btn-lupa"><i class="fa-solid fa-magnifying-glass"></i></button>
-                    </form>
-                    
-                    {% if not request.GET.busca %}
-                    <a href="#aulas" class="btn-pill btn-laranja mt-2">
-                        Estudar português <span class="btn-icon-outline"><i class="fa-solid fa-book-open"></i></span>
-                    </a>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="col-md-5 col-lg-7"></div>
-        </div>
-    </section>
-
-    <div class="conteudo-fundo">
-        
-        {% if request.GET.busca %}
-            <section class="container mb-5">
-                <h2 class="section-title">Resultados para "{{ request.GET.busca }}"</h2>
-                
-                {% if publicacoes %}
-                    <h4 class="mt-4 mb-3" style="color: #1C3384;">Serviços Encontrados:</h4>
-                    <div class="row g-3 mb-4">
-                        {% for pub in publicacoes %}
-                        <div class="col-md-6">
-                            <a href="{% url 'detalhe_categoria' pub.categoria.id %}" class="text-decoration-none">
-                                <div class="card p-3 border-start border-primary border-4 shadow-sm">
-                                    <h5 class="m-0 text-dark">{{ pub.titulo }}</h5>
-                                    <small class="text-muted">Acessar informações ➜</small>
-                                </div>
-                            </a>
-                        </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-                {% if licoes %}
-                    <h4 class="fw-bold mb-3" style="color: var(--verde-escuro);"><i class="fa-solid fa-book-open"></i> Aulas Encontradas</h4>
-                    <div class="row g-4 mb-4">
-                        {% for licao in licoes %}
-                        <div class="col-md-6 col-lg-4">
-                            <div class="card card-aula h-100 {% if licao.data_lancamento > hoje %} opacity-75 {% endif %}">
-                                {% if licao.imagem %}
-                                <div style="position: relative;">
-                                    <img src="{{ licao.imagem.url }}" alt="{{ licao.titulo }}" style="{% if licao.data_lancamento > hoje %} filter: grayscale(100%); {% endif %}">
-                                    {% if licao.data_lancamento > hoje %}<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem;">🔒</div>{% endif %}
-                                </div>
-                                {% endif %}
-                                <div class="card-body p-4 text-start">
-                                    <div class="mb-3">
-                                        {% if licao.data_lancamento > hoje %} <span class="badge-status bg-secondary">📅 Libera em: {{ licao.data_lancamento|date:"d/m/Y" }}</span> 
-                                        {% else %} <span class="badge-status"><i class="fa-solid fa-check"></i> Disponível</span> {% endif %}
-                                    </div>
-                                    <h4 class="card-title fw-bold text-dark mb-2" style="font-size: 1.3rem;">{{ licao.titulo }}</h4>
-                                    {% if licao.data_lancamento <= hoje %}
-                                        <div class="d-grid gap-2 mt-3">
-                                            <a href="{% url 'licao_detalhe' licao.id %}" class="btn btn-aula-azul"><i class="fa-solid fa-play"></i> Acessar Aula</a>
-                                        </div>
-                                    {% else %}
-                                        <button disabled class="btn btn-secondary rounded-pill w-100 fw-bold mt-2">🔒 Aguarde a data</button>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-                {% if not licoes and not publicacoes %}
-                    <div class="alert alert-warning text-center rounded-4 shadow-sm fw-bold fs-5 p-4 mt-3" style="background-color: #FFF3CD; border: 2px solid #FFEEBA; color: #856404;">
-                        Poxa, não encontramos nada com a palavra "{{ request.GET.busca }}". Tente buscar por "CPF", "saúde" ou "verbos".
-                    </div>
-                {% endif %}
-                
-            </section>
+        /* --- REGRA PARA ADAPTAR AOS TELEMÓVEIS --- */
+        @media (max-width: 768px) {
+            /* Correção Crítica: position center bottom mantém as crianças visíveis na quebra da imagem */
+            body { background-size: cover; background-position: center bottom; }
             
-        {% else %}
-            
-            <section class="container mb-5">
-                <h2 class="section-title">Serviços Essenciais</h2>
-                <p class="section-subtitle">Encontre informações úteis sobre:</p>
-                <div class="row g-4">
-    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-saude"><i class="fa-solid fa-heart-pulse"></i> <h3 class="card-title m-0">Saúde</h3></div><p class="card-text">Informações sobre SUS e postos.</p><a href="{% url 'index_guia' %}" class="btn-card bg-saude">Saiba mais</a></div></div>
-    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-educacao"><i class="fa-solid fa-book"></i> <h3 class="card-title m-0">Educação</h3></div><p class="card-text">Matrículas e escolas próximas.</p><a href="{% url 'index_guia' %}" class="btn-card bg-educacao">Saiba mais</a></div></div>
-    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-transporte"><i class="fa-solid fa-bus"></i> <h3 class="card-title m-0">Transporte</h3></div><p class="card-text">Rotas de ônibus e passes.</p><a href="{% url 'index_guia' %}" class="btn-card bg-transporte">Saiba mais</a></div></div>
-    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-docs"><i class="fa-solid fa-id-card"></i> <h3 class="card-title m-0">Documentos</h3></div><p class="card-text">Emissão de CPF, RNE e vistos.</p><a href="{% url 'index_guia' %}" class="btn-card bg-docs">Saiba mais</a></div></div>
-</div>
-            </section>
-
-            <section id="aulas" class="container mb-2">
-                <h2 class="section-title laranja">Estudar Português</h2>
-                <p class="section-subtitle">Aulas e materiais para aprender português como língua de acolhimento</p>
-                
-                <div class="row g-4 mb-4">
-                    {% for licao in licoes %}
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-aula h-100 {% if licao.data_lancamento > hoje %} opacity-75 {% endif %}">
-                            {% if licao.imagem %}
-                            <div style="position: relative;">
-                                <img src="{{ licao.imagem.url }}" alt="{{ licao.titulo }}" style="{% if licao.data_lancamento > hoje %} filter: grayscale(100%); {% endif %}">
-                                {% if licao.data_lancamento > hoje %}<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem;">🔒</div>{% endif %}
-                            </div>
-                            {% endif %}
-                            <div class="card-body p-4 text-start">
-                                <div class="mb-3">
-                                    {% if licao.data_lancamento > hoje %} <span class="badge-status bg-secondary">📅 Libera em: {{ licao.data_lancamento|date:"d/m/Y" }}</span> 
-                                    {% else %} <span class="badge-status"><i class="fa-solid fa-check"></i> Disponível</span> {% endif %}
-                                </div>
-                                <h4 class="card-title fw-bold text-dark mb-2" style="font-size: 1.3rem;">{{ licao.titulo }}</h4>
-                                {% if licao.data_lancamento <= hoje %}
-                                    <p class="card-text text-muted small mb-4">{{ licao.conteudo|striptags|truncatewords:15 }}</p>
-                                    <div class="d-grid gap-2">
-                                        <a href="{% url 'licao_detalhe' licao.id %}" class="btn btn-aula-azul"><i class="fa-solid fa-play"></i> Acessar Aula</a>
-                                        {% if licao.arquivo_pdf %}
-                                            <a href="{{ licao.arquivo_pdf.url }}" target="_blank" class="btn btn-aula-pdf"><i class="fa-regular fa-file-pdf"></i> Baixar Atividade (PDF)</a>
-                                        {% endif %}
-                                    </div>
-                                {% else %}
-                                    <p class="card-text text-muted fst-italic mt-3 small">Disponível em breve.</p>
-                                    <button disabled class="btn btn-secondary rounded-pill w-100 fw-bold mt-2">🔒 Aguarde a data</button>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </section>
-        
-        {% endif %}
-
-        <footer class="footer-custom">
-            <div class="footer-logo">UEMS Acolhe💛</div>
-            <div class="footer-links">
-                <a href="#">Sobre o projeto</a> 
-            </div>
-            <div class="social-icons">
-                <a href="https://www.instagram.com/uemsacolhe/" target="_blank" title="Siga nosso Instagram"><i class="fa-brands fa-instagram"></i></a>
-            </div>
-        </footer>
-
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
-</html>
+            /* Empurra o conteúdo para o meio e distribui melhor o espaço
