@@ -78,7 +78,7 @@
             <div class="row g-4 justify-content-center">
                 {% for categoria in categorias %}
                 <div class="col-md-6 col-lg-4">
-                    <a href="{% url 'detalhe_categoria' categoria.id %}" class="text-decoration-none text-dark">
+                   <a href="{% url 'detalhe_categoria' categoria.id %}" class="text-decoration-none text-dark">
                         <div class="card-categoria">
                             <div class="emoji-icon">
                                 {% if "Saúde" in categoria.nome %}🏥
