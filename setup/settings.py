@@ -3,11 +3,16 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Credenciais via variáveis de ambiente. Não expor secrets
+import os
+
+# Credenciais via variáveis de ambiente. Não expor secrets.
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'chave-insegura-apenas-para-desenvolvimento-local')
 
+# Nunca deixar DEBUG True em produção.
+# No PythonAnywhere, ele vai ler 'False' do WSGI. No seu PC, ele vai usar 'True'.
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 # Nunca deixar DEBUG True em produção
-DEBUG = True
+
 
 # Restringindo hosts (Substitua pelo seu endereço real do PythonAnywhere)
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'projetoacolhimento.pythonanywhere.com']
@@ -84,8 +89,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# Adicione esta linha para o Django achar suas imagens:
-STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
