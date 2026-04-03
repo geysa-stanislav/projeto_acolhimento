@@ -11,9 +11,10 @@ class Licao(models.Model):
     video_url = models.URLField(blank=True, null=True)
     imagem = models.ImageField(upload_to='imagens_licoes/', blank=True, null=True)
     arquivo_pdf = models.FileField(upload_to='atividades/', blank=True, null=True)
+    conteudo_ia = models.TextField(blank=True, null=True, help_text="Cole aqui o texto da aula para o Mascote IA usar como base.")
     data_lancamento = models.DateField(default=timezone.now, help_text="Data que a aula será liberada")
     data_publicacao = models.DateTimeField(auto_now_add=True)
-
+    
     class Meta:
         verbose_name = "Lição"
         verbose_name_plural = "Lições"

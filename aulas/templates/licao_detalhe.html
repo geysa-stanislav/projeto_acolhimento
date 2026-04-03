@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ licao.titulo }} - UEMS Acolhe</title>
+    <!-- Adicionado Token de Segurança do Django (Obrigatório para POST) -->
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,7 +24,6 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--fundo-creme);
-            /* O mesmo background da Home */
             background-image: url('{% static "imagens/fundos.png" %}');
             background-size: cover; 
             background-position: top center;
@@ -51,6 +53,74 @@
 
         h1 { font-family: 'Baloo 2', cursive; color: var(--azul-marinho); }
         .btn-voltar { font-weight: 700; border-radius: 30px; padding: 8px 20px; transition: 0.3s; }
+
+        /* Estilos do Tutor IA */
+        .btn-flutuante {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--verde-escuro);
+            color: white;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-flutuante:hover { transform: scale(1.1); background-color: #2c633f; }
+        
+        .chat-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 320px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ddd;
+        }
+        .chat-header {
+            background-color: var(--azul-marinho);
+            color: white;
+            padding: 12px 15px;
+            font-family: 'Baloo 2', cursive;
+            font-size: 1.2rem;
+        }
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            font-size: 0.95rem;
+            background: var(--fundo-creme);
+        }
+        .mensagem-ia {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            color: #333;
+            border-top-left-radius: 0;
+            width: 85%;
+        }
+        .mensagem-usuario {
+            background-color: var(--azul-marinho);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-top-right-radius: 0;
+            width: 85%;
+            margin-left: auto;
+            text-align: right;
+        }
     </style>
   </head>
   <body>
@@ -98,6 +168,173 @@
             {% endif %}
         </div>
     </div>
+
+    <!-- Botão Flutuante -->
+    <button id="btn-ia-tutor" class="btn-flutuante shadow-lg" onclick="toggleChat()">
+        <i class="fa-solid fa-robot"></i>
+    </button>
+
+    <!-- Janela de Chat -->
+    <div id="chat-ia-container" class="chat-container shadow-lg d-none">
+        <div class="chat-header d-flex justify-content-between align-items-center">
+            <span><i class="fa-solid fa-robot"></i> Mascote IA</span>
+            <button class="btn btn-sm text-white border-0" onclick="toggleChat()"><i class="fa-solid fa-xmark fs-5"></i></button>
+        </div>
+        
+        <div id="chat-messages" class="chat-messages p-3">
+            <div class="mensagem-ia shadow-sm">
+                <strong>Mascote:</strong> Olá! Estou a ver que está a estudar <strong>"{{ licao.titulo }}"</strong>. Como posso ajudar? Quer treinar a pronúncia ou tem dúvida sobre alguma palavra?
+            </div>
+        </div>
+        
+        <div class="chat-input p-2 d-flex gap-2 border-top bg-light">
+            <select id="ia-idioma" class="form-select form-select-sm" style="width: 85px;" title="Idioma">
+                <option value="pt-BR" selected>🇧🇷 PT</option>
+                <option value="en-US">🇺🇸 EN</option>
+                <option value="es-ES">🇪🇸 ES</option>
+                <option value="fr-FR">🇫🇷 FR</option>
+                <option value="ht-HT">🇭🇹 HT</option>
+            </select>
+            <input type="text" id="ia-input" class="form-control" placeholder="Digite ou fale...">
+            <button class="btn btn-danger" id="btn-gravar" title="Falar">
+                <i class="fa-solid fa-microphone"></i>
+            </button>
+            <button class="btn btn-primary" id="btn-enviar" title="Enviar">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+   <script>
+    let historico = [];
+
+    function toggleChat() {
+        const chat = document.getElementById('chat-ia-container');
+        chat.classList.toggle('d-none');
+    }
+
+    const btnEnviar = document.getElementById('btn-enviar');
+    const inputTexto = document.getElementById('ia-input');
+    const selectIdioma = document.getElementById('ia-idioma');
+    const chatMessages = document.getElementById('chat-messages');
+
+    function adicionarMensagem(htmlConteudo, remetente) {
+        const div = document.createElement('div');
+        div.className = remetente === 'ia' ? 'mensagem-ia shadow-sm' : 'mensagem-usuario shadow-sm';
+        div.innerHTML = htmlConteudo;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function enviarMensagem() {
+        const texto = inputTexto.value.trim();
+        if (!texto) return;
+
+        adicionarMensagem(`<strong>Você:</strong> ${texto}`, 'usuario');
+        inputTexto.value = '';
+        inputTexto.placeholder = "Aguarde, a IA está a pensar...";
+        btnEnviar.disabled = true;
+        document.getElementById('btn-gravar').disabled = true;
+
+        const idMensagemIA = 'msg-ia-' + Date.now();
+        adicionarMensagem(`<strong id="${idMensagemIA}">Mascote:</strong> A digitar... <i class="fa-solid fa-spinner fa-spin"></i>`, 'ia');
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            const resposta = await fetch('/ia/tutor/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify({
+                    mensagem: texto,
+                    licao_id: {{ licao.id }},
+                    idioma: selectIdioma.value,
+                    historico: historico
+                })
+            });
+
+            const dados = await resposta.json();
+            const elMensagem = document.getElementById(idMensagemIA).parentNode;
+
+            if (resposta.ok) {
+                elMensagem.innerHTML = `<strong>Mascote:</strong> ${dados.resposta}`;
+                historico.push({"role": "user", "content": texto});
+                historico.push({"role": "assistant", "content": dados.resposta});
+                if (historico.length > 10) historico = historico.slice(-10);
+            } else {
+                elMensagem.innerHTML = `<strong>Mascote:</strong> Desculpe, tive um problema técnico. (${dados.erro})`;
+            }
+
+        } catch (erro) {
+            console.error("Erro na requisição:", erro);
+            const elMensagem = document.getElementById(idMensagemIA).parentNode;
+            elMensagem.innerHTML = `<strong>Mascote:</strong> Erro de ligação com o servidor.`;
+        } finally {
+            inputTexto.placeholder = "Digite ou fale...";
+            btnEnviar.disabled = false;
+            document.getElementById('btn-gravar').disabled = false;
+        }
+    }
+
+    btnEnviar.addEventListener('click', enviarMensagem);
+    inputTexto.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') enviarMensagem();
+    });
+
+    let isRecording = false;
+    const btnGravar = document.getElementById('btn-gravar');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+
+    if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        recognition.onstart = function() {
+            isRecording = true;
+            btnGravar.classList.remove('btn-danger');
+            btnGravar.classList.add('btn-warning');
+            btnGravar.innerHTML = '<i class="fa-solid fa-ear-listen fa-beat text-danger"></i>';
+            inputTexto.placeholder = "A ouvir...";
+        };
+
+        recognition.onresult = function(event) {
+            inputTexto.value = event.results[0][0].transcript;
+        };
+
+        recognition.onerror = function(event) {
+            console.error("Erro no reconhecimento de voz:", event.error);
+            alert("Não foi possível entender. Verifique a permissão do microfone.");
+        };
+
+        recognition.onend = function() {
+            isRecording = false;
+            btnGravar.classList.remove('btn-warning');
+            btnGravar.classList.add('btn-danger');
+            btnGravar.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+            inputTexto.placeholder = "Digite ou fale...";
+        };
+    } else {
+        btnGravar.style.display = 'none';
+    }
+
+    btnGravar.addEventListener('click', () => {
+        if (!recognition) {
+            alert("O seu navegador não suporta digitação por voz. Tente usar o Google Chrome.");
+            return;
+        }
+        if (!isRecording) {
+            recognition.lang = selectIdioma.value;
+            recognition.start();
+        } else {
+            recognition.stop();
+        }
+    });
+</script>
 
   </body>
 </html>
