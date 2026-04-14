@@ -7,7 +7,7 @@
     <title>{{ licao.titulo }} - UEMS Acolhe</title>
     <!-- Adicionado Token de Segurança do Django (Obrigatório para POST) -->
     <meta name="csrf-token" content="{{ csrf_token }}">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@
             font-family: 'Inter', sans-serif;
             background-color: var(--fundo-creme);
             background-image: url('{% static "imagens/fundos.png" %}');
-            background-size: cover; 
+            background-size: cover;
             background-position: top center;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -35,17 +35,17 @@
         .navbar-custom {
             background-color: var(--azul-marinho);
             padding: 15px 5%;
-            border-radius: 0 0 50% 10% / 0 0 40px 15px; 
+            border-radius: 0 0 50% 10% / 0 0 40px 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         .navbar-brand { font-family: 'Baloo 2', cursive; color: white !important; font-size: 1.8rem; font-weight: 800; text-decoration: none;}
-        
+
         /* O fundo esfumaçado para a leitura ficar perfeita */
-        .conteudo-fundo { 
-            background: rgba(253, 249, 241, 0.90); 
-            backdrop-filter: blur(5px); 
-            border-radius: 40px; 
-            padding: 40px 5%; 
+        .conteudo-fundo {
+            background: rgba(253, 249, 241, 0.90);
+            backdrop-filter: blur(5px);
+            border-radius: 40px;
+            padding: 40px 5%;
             margin: 40px auto;
             max-width: 1000px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -74,7 +74,7 @@
             justify-content: center;
         }
         .btn-flutuante:hover { transform: scale(1.1); background-color: #2c633f; }
-        
+
         .chat-container {
             position: fixed;
             bottom: 100px;
@@ -134,16 +134,20 @@
         <div class="conteudo-fundo">
             <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
                 {% if licao.video_url %}
-                <div class="ratio ratio-16x9">
-                    <iframe src="{{ licao.get_video_embed }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
+            <div class="text-center p-5" style="background: #000; border-radius: 12px;">
+                 <i class="fa-brands fa-youtube" style="font-size: 4rem; color: #FF0000;"></i>
+                 <p class="text-white mt-3 fs-5">Esta aula possui um vídeo no YouTube</p>
+                 <a href="{{ licao.video_url }}" target="_blank" class="btn btn-danger btn-lg rounded-pill px-5 fw-bold mt-2">
+                <i class="fa-brands fa-youtube"></i> Assistir no YouTube
+                </a>
+             </div>
                 {% elif licao.imagem %}
                     <img src="{{ licao.imagem.url }}" class="w-100" style="height: 400px; object-fit: cover;">
                 {% endif %}
             </div>
 
             <h1 class="fw-bold mb-3">{{ licao.titulo }}</h1>
-            
+
             <div class="d-flex gap-2 mb-4">
                 <span class="badge" style="background-color: var(--verde-escuro); font-size: 0.9rem; padding: 8px 15px; border-radius: 20px;">✅ Aula Liberada</span>
                 <span class="badge bg-secondary" style="font-size: 0.9rem; padding: 8px 15px; border-radius: 20px;">📅 Lançamento: {{ licao.data_lancamento|date:"d/m/Y" }}</span>
@@ -180,13 +184,13 @@
             <span><i class="fa-solid fa-robot"></i> Mascote IA</span>
             <button class="btn btn-sm text-white border-0" onclick="toggleChat()"><i class="fa-solid fa-xmark fs-5"></i></button>
         </div>
-        
+
         <div id="chat-messages" class="chat-messages p-3">
             <div class="mensagem-ia shadow-sm">
                 <strong>Mascote:</strong> Olá! Estou a ver que está a estudar <strong>"{{ licao.titulo }}"</strong>. Como posso ajudar? Quer treinar a pronúncia ou tem dúvida sobre alguma palavra?
             </div>
         </div>
-        
+
         <div class="chat-input p-2 d-flex gap-2 border-top bg-light">
             <select id="ia-idioma" class="form-select form-select-sm" style="width: 85px;" title="Idioma">
                 <option value="pt-BR" selected>🇧🇷 PT</option>
