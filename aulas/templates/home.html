@@ -248,7 +248,7 @@
                                 </div>
                                 <h4 class="card-title fw-bold text-dark mb-2" style="font-size: 1.3rem;">{{ licao.titulo }}</h4>
                                 {% if licao.data_lancamento <= hoje %}
-                                    <p class="card-text text-muted small mb-4">{{ licao.conteudo|striptags|truncatewords:15 }}</p>
+                                    <p class="card-text text-muted small mb-4">{{ licao.conteudo|striptags|truncatewords:15|safe }}</p>
                                     <div class="d-grid gap-2">
                                         <a href="{% url 'licao_detalhe' licao.id %}" class="btn btn-aula-azul"><i class="fa-solid fa-play"></i> Acessar Aula</a>
                                         {% if licao.arquivo_pdf %}

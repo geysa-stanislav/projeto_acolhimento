@@ -79,6 +79,10 @@ CONTEÚDO DA AULA:
 {conteudo_aula[:12000]}
 
 REGRAS:
+ - Detecte o idioma da mensagem do aluno e responda SEMPRE no mesmo idioma que ele usou.
+- Se o aluno escrever em haitiano crioulo, responda em haitiano crioulo.
+- Se escrever em espanhol, responda em espanhol.
+- Se escrever em português, responda em português.
 - Responda SOMENTE perguntas relacionadas ao conteúdo da aula acima. Nunca responda sobre outros temas.
 - Se o tema não estiver no conteúdo da aula, responda APENAS: "Essa dúvida está fora do conteúdo desta aula."
 - Respostas CURTAS: máximo 3 linhas. Se o aluno quiser saber mais, ele pergunta.
