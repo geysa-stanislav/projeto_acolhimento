@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry # <-- A mágica importada aqui
-from .models import Licao
+from .models import Licao, Recado
 
 # --- CONFIGURAÇÃO DAS LIÇÕES (O QUE VOCÊ JÁ TINHA) ---
 @admin.register(Licao)
@@ -37,3 +37,9 @@ class LogEntryAdmin(admin.ModelAdmin):
     def has_add_permission(self, request): return False
     def has_change_permission(self, request, obj=None): return False
     def has_delete_permission(self, request, obj=None): return False
+@admin.register(Recado)
+class RecadoAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'data_publicacao', 'ativo')
+    list_filter = ('ativo', 'data_publicacao')
+    search_fields = ('titulo', 'mensagem')
+    list_editable = ('ativo',) # Permite ligar/desligar o aviso direto na lista

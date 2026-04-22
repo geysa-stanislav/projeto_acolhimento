@@ -38,3 +38,16 @@ class Licao(models.Model):
             if "?" in video_id: video_id = video_id.split("?")[0]
             return f"https://www.youtube.com/embed/{video_id}"
         return url
+
+class Recado(models.Model):
+    titulo = models.CharField(max_length=200, verbose_name="Título do Recado")
+    mensagem = models.TextField(verbose_name="Mensagem")
+    data_publicacao = models.DateTimeField(auto_now_add=True, verbose_name="Data de Publicação")
+    ativo = models.BooleanField(default=True, help_text="Desmarque para ocultar o recado do site sem precisar apagar.")
+
+    class Meta:
+        verbose_name = "Recado"
+        verbose_name_plural = "Recados"
+
+    def __str__(self):
+        return self.titulo

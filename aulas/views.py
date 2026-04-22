@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth import login
 from django.utils import timezone
-from .models import Licao
+from .models import Licao, Recado # <-- ADICIONADO: Importando o Recado
 from .forms import CadastroSeguroForm
 from guia.models import Publicacao
 from groq import Groq
@@ -20,6 +20,10 @@ def remover_acentos(texto):
 def home(request):
     busca = request.GET.get('busca')
     hoje = timezone.now().date()
+    
+    # <-- ADICIONADO: Puxando apenas os recados marcados como "ativos"
+    recados = Recado.objects.filter(ativo=True).order_by('-data_publicacao') 
+    
     if busca:
         busca_limpa = remover_acentos(busca)
         licoes = [l for l in Licao.objects.all() if busca_limpa in remover_acentos(l.titulo) or busca_limpa in remover_acentos(l.conteudo)]
@@ -27,7 +31,11 @@ def home(request):
     else:
         licoes = Licao.objects.all()
         publicacoes = None
-    return render(request, 'home.html', {'licoes': licoes, 'publicacoes': publicacoes, 'hoje': hoje})
+        
+    # <-- ADICIONADO: Enviando a variável 'recados' para o HTML
+    return render(request, 'home.html', {'licoes': licoes, 'publicacoes': publicacoes, 'hoje': hoje, 'recados': recados})
+
+# ... (MANTENHA O RESTANTE DO CÓDIGO INTACTO A PARTIR DAQUI: def licao_detalhe...)
 
 def licao_detalhe(request, id):
     licao = get_object_or_404(Licao, id=id)
@@ -72,7 +80,7 @@ def tutor_ia(request):
 
             print(f"CONTEUDO AULA: {len(conteudo_aula)} caracteres")
 
-            sistema = f"""Você é o Mascote do UEMS Acolhe, assistente pedagógico de português para imigrantes iniciantes.
+            sistema = f"""Você é o Tutor IA  do UEMS Acolhe, assistente pedagógico de português para imigrantes iniciantes.
 
 AULA ATUAL: {titulo_aula}
 CONTEÚDO DA AULA:

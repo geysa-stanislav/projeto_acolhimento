@@ -93,13 +93,30 @@
         .btn-aula-pdf { border: 2px solid #dc3545; color: #dc3545; border-radius: 20px; font-weight: 700; transition: 0.3s; display: block; text-align: center; text-decoration: none; padding: 6px;}
         .btn-aula-pdf:hover { background-color: #dc3545; color: white;}
 
-        .footer-custom { text-align: center; padding: 30px 15px; margin-top: 20px; border-top: 1px solid rgba(0,0,0,0.05); }
+       .footer-custom { 
+            text-align: center; 
+            padding: 40px 15px 30px 15px; 
+            margin-top: 50px; 
+            border-top: 2px solid rgba(28, 51, 132, 0.1); 
+            background-color: var(--fundo-creme); /* Dá um fundo sólido para tampar o desenho embaixo */
+            border-radius: 0 0 40px 40px; /* Arredonda as pontas de baixo */
+        }
         .footer-logo { font-family: 'Baloo 2', cursive; font-size: 1.5rem; font-weight: 800; color: var(--azul-marinho); margin-bottom: 5px; }
         .footer-links { font-size: 0.95rem; font-weight: 600; color: #666; margin-bottom: 15px; }
         .footer-links a { color: #221f1f; text-decoration: none; margin: 0 5px; transition: 0.3s; }
         .footer-links a:hover { color: var(--laranja-forte); }
         .social-icons a { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.5rem; transition: 0.3s; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
         .social-icons a:hover { transform: scale(1.1); }
+        .link-desenvolvedora {
+            color: var(--azul-marinho);
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+        .link-desenvolvedora:hover {
+            color: var(--laranja-forte);
+            text-decoration: underline;
+        }
     </style>
   </head>
   <body>
@@ -204,28 +221,38 @@
 
             </section>
 
-        {% else %}
+       {% else %}
 
           <section class="container mb-5">
-                <h2 class="section-title">Serviços Essenciais</h2>
-                <p class="section-subtitle">Encontre informações úteis sobre:</p>
+                <h2 class="section-title">Mural de Avisos</h2>
+                <p class="section-subtitle">Recados e comunicados importantes da coordenação:</p>
 
+                {% if recados %}
                 <div class="row g-4">
-                    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-saude"><i class="fa-solid fa-heart-pulse"></i> <h3 class="card-title m-0">Saúde</h3></div><p class="card-text">Informações sobre SUS e postos.</p><a href="{% url 'detalhe_categoria' 4 %}" class="btn-card bg-saude">Saiba mais</a></div></div>
-
-                    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-educacao"><i class="fa-solid fa-book"></i> <h3 class="card-title m-0">Educação</h3></div><p class="card-text">Matrículas e escolas próximas.</p><a href="{% url 'detalhe_categoria' 7 %}" class="btn-card bg-educacao">Saiba mais</a></div></div>
-
-                    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-transporte"><i class="fa-solid fa-bus"></i> <h3 class="card-title m-0">Transporte</h3></div><p class="card-text">Rotas de ônibus e passes.</p><a href="{% url 'detalhe_categoria' 6 %}" class="btn-card bg-transporte">Saiba mais</a></div></div>
-
-                    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-docs"><i class="fa-solid fa-id-card"></i> <h3 class="card-title m-0">Documentos</h3></div><p class="card-text">Emissão de CPF, RNE e vistos.</p><a href="{% url 'detalhe_categoria' 5 %}" class="btn-card bg-docs">Saiba mais</a></div></div>
+                    {% for recado in recados %}
+                    <div class="col-12 col-md-6">
+                        <div class="card p-3 border-start border-warning border-4 shadow-sm h-100" style="border-radius: 15px; border-top: none; border-right: none; border-bottom: none;">
+                            <h5 class="fw-bold text-dark m-0">{{ recado.titulo }}</h5>
+                            <small class="text-muted mb-2 d-block"><i class="fa-regular fa-clock"></i> {{ recado.data_publicacao|date:"d/m/Y" }}</small>
+                            <p class="mb-0 text-dark" style="font-weight: 500;">{{ recado.mensagem }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
+                {% else %}
+                <div class="alert text-center rounded-4 shadow-sm fw-bold p-3" style="background-color: #f8f9fa; border: 1px dashed #ccc; color: #666;">
+                    Nenhum recado no momento.
+                </div>
+                {% endif %}
 
                 <div class="text-center mt-5">
-                    <a href="{% url 'index_guia' %}" class="btn-pill btn-laranja" style="font-size: 1.1rem; padding: 15px 35px;">
-                        Ver todos os serviços <i class="fa-solid fa-arrow-right"></i>
+                    <a href="{% url 'index_guia' %}" class="btn-pill btn-laranja" style="font-size: 1.1rem; padding: 12px 30px;">
+                        Ver todos os serviços do Guia <i class="fa-solid fa-arrow-right ms-2"></i>
                     </a>
                 </div>
-            </section>
+                </section>
+
+            <section id="aulas" class="container mb-2">
 
             <section id="aulas" class="container mb-2">
                 <h2 class="section-title laranja">Estudar Português</h2>
@@ -269,13 +296,20 @@
         {% endif %}
 
         <footer class="footer-custom">
-            <div class="footer-logo">UEMS Acolhe💛</div>
+            <div class="footer-logo">UEMS Acolhe 💛</div>
             <div class="footer-links">
                 <a href="#">Sobre o projeto</a>
             </div>
-            <div class="social-icons">
+            <div class="social-icons mb-3">
                 <a href="https://www.instagram.com/uemsacolhe/" target="_blank" title="Siga nosso Instagram"><i class="fa-brands fa-instagram"></i></a>
             </div>
+            
+           <div class="text-muted small" style="font-weight: 600; line-height: 1.6;">
+                &copy; 2026 UEMS Acolhe. Todos os direitos reservados.<br>
+                Desenvolvido por <a href="https://linktr.ee/geysa.log" target="_blank" class="link-desenvolvedora">Geysa Stanislav</a>.
+            </div>
+        </footer>
+            
         </footer>
 
     </div>
