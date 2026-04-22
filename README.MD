@@ -17,7 +17,7 @@ A barreira do idioma e a falta de informação clara são os maiores obstáculos
 - **Segurança:** Django-Axes (Proteção contra força bruta) e gestão de variáveis de ambiente.
 
 ## ✨ Principais Funcionalidades
-- **Mascote IA Educacional:** Chatbot integrado às lições. Utiliza engenharia de prompt ultra-estruturada e o processamento ultrarrápido da API do Groq para atuar estritamente como um tutor de português, garantindo respostas curtas, precisas e contextualizadas ao idioma do aluno.
+- **Tutor de  IA Educacional:** Chatbot integrado às lições. Utiliza engenharia de prompt ultra-estruturada e o processamento ultrarrápido da API do Groq para atuar estritamente como um tutor de português, garantindo respostas curtas, precisas e contextualizadas ao idioma do aluno.
 - **Aulas Multimídia:** Suporte a incorporação automática de vídeos do YouTube nativos no conteúdo da aula, adaptando links comuns ou *Shorts* automaticamente.
 - **Busca Inteligente (Fuzzy Search):** Sistema de pesquisa tolerante a erros, que ignora acentos e letras maiúsculas/minúsculas, essencial para usuários não-nativos (ex: buscar por "cartao" encontra "Cartão").
 - **Agendamento de Aulas:** Sistema de bloqueio automático de lições que só ficam disponíveis na data programada pelo professor.
