@@ -181,13 +181,13 @@
     <!-- Janela de Chat -->
     <div id="chat-ia-container" class="chat-container shadow-lg d-none">
         <div class="chat-header d-flex justify-content-between align-items-center">
-            <span><i class="fa-solid fa-robot"></i> Mascote IA</span>
+            <span><i class="fa-solid fa-robot"></i> Tutor IA</span>
             <button class="btn btn-sm text-white border-0" onclick="toggleChat()"><i class="fa-solid fa-xmark fs-5"></i></button>
         </div>
 
         <div id="chat-messages" class="chat-messages p-3">
             <div class="mensagem-ia shadow-sm">
-                <strong>Mascote:</strong> Olá! Estou a ver que está a estudar <strong>"{{ licao.titulo }}"</strong>. Como posso ajudar? Quer treinar a pronúncia ou tem dúvida sobre alguma palavra?
+                <strong>Tutor IA:</strong> Olá! Estou a ver que está a estudar <strong>"{{ licao.titulo }}"</strong>. Como posso ajudar? Quer treinar a pronúncia ou tem dúvida sobre alguma palavra?
             </div>
         </div>
 
@@ -241,7 +241,7 @@
         document.getElementById('btn-gravar').disabled = true;
 
         const idMensagemIA = 'msg-ia-' + Date.now();
-        adicionarMensagem(`<strong id="${idMensagemIA}">Mascote:</strong> A digitar... <i class="fa-solid fa-spinner fa-spin"></i>`, 'ia');
+        adicionarMensagem(`<strong id="${idMensagemIA}">Tutor IA:</strong> A digitar... <i class="fa-solid fa-spinner fa-spin"></i>`, 'ia');
 
         try {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
