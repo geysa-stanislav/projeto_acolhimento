@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth import login
 from django.utils import timezone
-from .models import Licao, Recado # <-- ADICIONADO: Importando o Recado
+from .models import Licao, Recado # Importando o Recado
 from .forms import CadastroSeguroForm
 from guia.models import Publicacao
 from groq import Groq
@@ -21,7 +21,6 @@ def home(request):
     busca = request.GET.get('busca')
     hoje = timezone.now().date()
     
-    # <-- ADICIONADO: Puxando apenas os recados marcados como "ativos"
     recados = Recado.objects.filter(ativo=True).order_by('-data_publicacao') 
     
     if busca:
@@ -32,10 +31,7 @@ def home(request):
         licoes = Licao.objects.all()
         publicacoes = None
         
-    # <-- ADICIONADO: Enviando a variável 'recados' para o HTML
     return render(request, 'home.html', {'licoes': licoes, 'publicacoes': publicacoes, 'hoje': hoje, 'recados': recados})
-
-# ... (MANTENHA O RESTANTE DO CÓDIGO INTACTO A PARTIR DAQUI: def licao_detalhe...)
 
 def licao_detalhe(request, id):
     licao = get_object_or_404(Licao, id=id)
@@ -78,27 +74,21 @@ def tutor_ia(request):
                 except Exception as e:
                     print(f"ERRO: {e}")
 
-            print(f"CONTEUDO AULA: {len(conteudo_aula)} caracteres")
-
-            sistema = f"""Você é o Tutor IA  do UEMS Acolhe, assistente pedagógico de português para imigrantes iniciantes.
+            # REFINAMENTO DO PROMPT PARA SUPORTE MULTILINGUE E GRAMATICAL
+            sistema = f"""Você é o Tutor IA do UEMS Acolhe, um assistente pedagógico poliglota e empático para imigrantes.
 
 AULA ATUAL: {titulo_aula}
-CONTEÚDO DA AULA:
+CONTEÚDO BASE (PDF):
 {conteudo_aula[:12000]}
 
-REGRAS:
- - Detecte o idioma da mensagem do aluno e responda SEMPRE no mesmo idioma que ele usou.
-- Se o aluno escrever em haitiano crioulo, responda em haitiano crioulo.
-- Se escrever em espanhol, responda em espanhol.
-- Se escrever em português, responda em português.
-- Responda SOMENTE perguntas relacionadas ao conteúdo da aula acima. Nunca responda sobre outros temas.
-- Se o tema não estiver no conteúdo da aula, responda APENAS: "Essa dúvida está fora do conteúdo desta aula."
-- Respostas CURTAS: máximo 3 linhas. Se o aluno quiser saber mais, ele pergunta.
-- Use exemplos simples e diretos.
-- Mantenha o contexto da conversa — se o aluno perguntou sobre plural, perguntas seguintes são sobre o mesmo tema.
-- Quando o aluno perguntar "por que" sobre um tema da aula, explique pedagogicamente de forma simples.
-- Responda em português simples para quem está aprendendo.
-- Nunca invente regras gramaticais."""
+DIRETRIZES DE IDIOMA E APOIO:
+1. IDIOMA: Responda SEMPRE no idioma em que o aluno falar com você (Português, Inglês, Espanhol, Francês ou Crioulo Haitiano). Se ele pedir para mudar de idioma, mude imediatamente.
+2. ZERO INGLÊS NÃO SOLICITADO: NUNCA adicione traduções entre parênteses em inglês. NUNCA use avisos em inglês como "Note:". Se o aluno pedir em Árabe, responda APENAS em Árabe. Se pedir em Japonês, APENAS em Japonês (sem explicações em inglês ao lado).
+3. SUPORTE LINGUÍSTICO: Traduzir termos, explicar gramática básica (como o que é um verbo, substantivo, etc.) ou praticar pronúncia NÃO são considerados dúvidas "fora do conteúdo". Isso é suporte necessário ao letramento.
+4. CONTEÚDO: Sua base principal é o conteúdo do PDF acima. Use-o para dar exemplos.
+5. RESTRIÇÃO: Recuse apenas perguntas totalmente irrelevantes ao ambiente escolar ou à vida no Brasil (ex: futebol, fofocas, política externa). Para estas, responda: "Essa dúvida está fora do conteúdo desta aula."
+6. ESTILO: Respostas curtas (máximo 3-4 linhas), português simples e tom acolhedor.
+7. CONTEXTO: Mantenha o fio da conversa através do histórico."""
 
             cliente = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
