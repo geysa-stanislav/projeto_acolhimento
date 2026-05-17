@@ -16,96 +16,167 @@
         :root {
             --azul-marinho: #1C3384;
             --fundo-creme: #FDF9F1;
-            --laranja-forte: #F5821F;
+            /* Cor padrão de segurança */
+            --cor-tema: #1C3384; 
         }
+
+        /* Lógica do Django para injetar a cor da paleta dinamicamente no CSS */
+        {% if "saúde" in categoria.nome|lower or "saude" in categoria.nome|lower %}
+            :root { --cor-tema: #0F4C23; } /* Verde Saúde */
+        {% elif "edu" in categoria.nome|lower %}
+            :root { --cor-tema: #264687; } /* Azul Educação */
+        {% elif "trans" in categoria.nome|lower %}
+            :root { --cor-tema: #8B4513; } /* Marrom Transporte */
+        {% elif "doc" in categoria.nome|lower %}
+            :root { --cor-tema: #3B1C7A; } /* Roxo Documentos */
+        {% endif %}
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--fundo-creme);
-            /* Background idêntico ao da Home */
             background-image: url('{% static "imagens/fundos.png" %}');
             background-size: cover;
-            background-position: top center;
+            background-position: right 12%; 
             background-repeat: no-repeat;
             background-attachment: fixed;
+            min-height: 100vh;
         }
 
-        /* Cabeçalho com a ondinha babilônica */
+        /* Cabeçalho */
         .navbar-custom {
             background-color: var(--azul-marinho);
             padding: 15px 5%;
-            border-radius: 0 0 50% 10% / 0 0 40px 15px;
+            border-radius: 0 0 25px 25px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         .navbar-brand { font-family: 'Baloo 2', cursive; color: white !important; font-size: 1.8rem; font-weight: 800; text-decoration: none;}
-        .btn-voltar { font-weight: 700; border-radius: 30px; padding: 8px 20px; transition: 0.3s; }
+        .btn-voltar { font-weight: 700; border-radius: 30px; border: 1px solid white; color: white; padding: 6px 16px; transition: 0.3s; font-size: 0.95rem; text-decoration: none; display: flex; align-items: center; gap: 8px;}
+        .btn-voltar:hover { background-color: rgba(255,255,255,0.1); color: white;}
 
-        /* Fundo de vidro (Glassmorphism) para facilitar a leitura */
+        /* Container Branco Principal */
         .conteudo-fundo {
-            background: rgba(255, 255, 255, 0.92); 
-            backdrop-filter: blur(8px);
-            border-radius: 30px;
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.98); 
+            border-radius: 20px;
+            padding: 40px 30px;
             margin: 40px auto;
             max-width: 900px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        h1 { font-family: 'Baloo 2', cursive; color: var(--azul-marinho); }
+        /* Títulos com a cor do tema dinâmico */
+        .titulo-categoria { font-family: 'Inter', sans-serif; font-weight: 800; color: var(--cor-tema); font-size: 1.8rem; margin: 0; }
+        .subtitulo-categoria { color: #666; font-size: 0.95rem; margin: 0; line-height: 1.3;}
+        
+        .icone-grande {
+            font-size: 3.5rem;
+            color: var(--cor-tema);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-        /* Accordion Customizado */
+        /* Sanfona (Accordion) com a cor do tema */
+        .accordion { display: flex; flex-direction: column; gap: 12px; }
+        
         .accordion-item {
             border: none;
-            border-radius: 15px !important;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 12px !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
             overflow: hidden;
+            background-color: white;
         }
+        
         .accordion-button {
+            font-family: 'Inter', sans-serif;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--azul-marinho);
             background-color: white;
             padding: 20px;
+            border-radius: 12px !important;
+            display: flex;
+            align-items: center;
         }
+
+        /* Bolinha do "i" com a cor do tema */
+        .icone-info {
+            background-color: var(--cor-tema);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
         .accordion-button:not(.collapsed) {
-            background-color: #EEF2FF;
-            color: var(--laranja-forte);
+            background-color: white;
+            color: var(--cor-tema);
             box-shadow: none;
         }
+        
         .accordion-button:focus { box-shadow: none; }
         
         .accordion-body {
             background-color: white;
             color: #444;
-            font-size: 1.05rem;
-            line-height: 1.7;
-            padding: 25px;
+            font-size: 1rem;
+            padding: 0 20px 20px 60px; 
         }
+
+        /* Rodapé Vertical */
+        .footer-acolhe {
+            text-align: center; 
+            padding: 40px 15px; 
+            margin-top: 60px; 
+            border-top: 1px solid rgba(0,0,0,0.08); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 15px;
+        }
+        .footer-brand { color: var(--azul-marinho); font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 1.6rem; }
+        .footer-insta { color: #E1306C; font-size: 2.4rem; text-decoration: none; transition: 0.3s; }
+        .footer-credits { color: #333; font-size: 0.95rem; font-weight: 600; line-height: 1.6; }
+        .heart-navy { color: #1C3384; }
+        .author-purple { color: #8B5CF6; font-weight: 800; text-decoration: none; }
     </style>
   </head>
   <body>
 
     <nav class="navbar-custom d-flex justify-content-between align-items-center">
         <a class="navbar-brand m-0" href="{% url 'home' %}">UEMS Acolhe</a>
-        <a href="{% url 'index_guia' %}" class="btn btn-outline-light btn-voltar">
+        <a href="{% url 'index_guia' %}" class="btn-voltar">
             <i class="fa-solid fa-arrow-left"></i> Voltar
         </a>
     </nav>
 
     <div class="container pb-5">
         <div class="conteudo-fundo">
-            <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
-                <div style="font-size: 3.5rem;">
-                    {% if "Saúde" in categoria.nome %}🏥
-                    {% elif "Doc" in categoria.nome %}🪪
-                    {% elif "Edu" in categoria.nome %}🎓
-                    {% elif "Trab" in categoria.nome %}💼
-                    {% else %}📌{% endif %}
+            
+            <div class="d-flex align-items-center gap-4 mb-4 border-bottom pb-4 justify-content-center">
+                
+                <div class="icone-grande">
+                    {% if "saúde" in categoria.nome|lower or "saude" in categoria.nome|lower %}
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    {% elif "edu" in categoria.nome|lower %}
+                        <i class="fa-solid fa-book"></i>
+                    {% elif "doc" in categoria.nome|lower %}
+                        <i class="fa-solid fa-id-card"></i>
+                    {% elif "trans" in categoria.nome|lower %}
+                        <i class="fa-solid fa-bus"></i>
+                    {% else %}
+                        <i class="fa-solid fa-location-dot"></i>
+                    {% endif %}
                 </div>
+                
                 <div>
-                    <h1 class="fw-bold m-0">{{ categoria.nome }}</h1>
-                    <p class="text-muted m-0">Informações e orientações essenciais</p>
+                    <h1 class="titulo-categoria">{{ categoria.nome }}</h1>
+                    <p class="subtitulo-categoria">Informações e<br>orientações essenciais</p>
                 </div>
             </div>
 
@@ -115,7 +186,8 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading{{ pub.id }}">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ pub.id }}" aria-expanded="false" aria-controls="collapse{{ pub.id }}">
-                            <i class="fa-solid fa-circle-info text-primary me-2"></i> {{ pub.titulo }}
+                            <div class="icone-info"><i class="fa-solid fa-info"></i></div>
+                            {{ pub.titulo }}
                         </button>
                     </h2>
                     <div id="collapse{{ pub.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ pub.id }}" data-bs-parent="#accordionCategoria">
@@ -127,12 +199,25 @@
                 {% endfor %}
             </div>
             {% else %}
-                <div class="alert alert-info text-center rounded-4 shadow-sm py-5">
-                    <i class="fa-solid fa-circle-exclamation fs-2 mb-3 d-block"></i>
-                    <span class="fw-bold">Ainda não há informações publicadas nesta categoria.</span>
+                <div class="alert alert-info text-center rounded-4 shadow-sm py-5" style="background-color: #f8f9fa; border: none;">
+                    <i class="fa-solid fa-circle-exclamation fs-2 mb-3 d-block" style="color: var(--cor-tema);"></i>
+                    <span class="fw-bold" style="color: var(--azul-marinho);">Ainda não há informações publicadas nesta categoria.</span>
                 </div>
             {% endif %}
+            
         </div>
+        
+        <footer class="footer-acolhe">
+            <span class="footer-brand">UEMS Acolhe</span>
+            <a href="https://www.instagram.com/uemsacolhe/" target="_blank" class="footer-insta">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <p class="footer-credits">
+                &copy; 2026 Todos os direitos reservados.<br>
+                Feito com amor <i class="fa-solid fa-heart heart-navy"></i> por 
+                <a href="https://www.instagram.com/geysa.log/" target="_blank" class="author-purple">Geysa Stanislav</a>
+            </p>
+        </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
