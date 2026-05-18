@@ -235,17 +235,28 @@
             
         {% else %}
             
-            <section class="container mb-5">
-                <h2 class="section-title laranja"><i class="fa-solid fa-bullhorn"></i> Mural de Avisos</h2>
-                <p class="section-subtitle">Fique por dentro das novidades e avisos importantes</p>
-                <div class="row g-3">
-                    {% for recado in recados %}
-                    <div class="col-12">
-                        <div class="card-recado">
-                            <h4 class="titulo-recado">{{ recado.titulo }}</h4>
-                            <span class="data-recado">Publicado em: {{ recado.data_publicacao|date:"d/m/Y \à\s H:i" }}</span>
-                            <p class="card-text text-dark mt-2 mb-0">{{ recado.conteudo|safe }}</p>
-                        </div>
+           <section class="container mb-5">
+    <h2 class="section-title laranja"><i class="fa-solid fa-bullhorn"></i> Mural de Recados</h2>
+    <p class="section-subtitle">Fique por dentro das novidades e avisos importantes</p>
+    <div class="row g-4">
+        {% for recado in recados %}
+        <div class="col-12 col-md-6"> <div class="card-recado h-100">
+                <h4 class="titulo-recado">{{ recado.titulo }}</h4>
+                <span class="data-recado">{{ recado.data_publicacao|date:"d/m/Y \à\s H:i" }}</span>
+                <div class="texto-recado">
+                    {{ recado.mensagem|safe }}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-light text-center rounded-3 shadow-sm py-4 fw-medium text-muted">
+                Nenhum recado publicado no momento.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
                     </div>
                     {% empty %}
                     <div class="col-12">
