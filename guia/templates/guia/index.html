@@ -15,16 +15,18 @@
         :root {
             --azul-marinho: #1C3384;
             --fundo-creme: #FDF9F1;
-            --cinza-subtitulo: #666;
+            /* AJUSTE 1: Cinza muito mais escuro e forte para o subtítulo */
+            --cinza-subtitulo: #2b2b2b; 
             --laranja-forte: #F5821F;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--fundo-creme);
-            background-image: url('{% static "imagens/fundos.png" %}');
+            background-image: url('{% static "imagens/fundos.jpg" %}');
             background-size: cover; 
-            background-position: right 12%; 
+            /* Mantido o seu ajuste perfeito de 105% */
+            background-position: right 105%; 
             background-repeat: no-repeat;
             background-attachment: fixed;
             min-height: 100vh;
@@ -42,7 +44,8 @@
         .btn-voltar { font-weight: 700; border-radius: 30px; padding: 8px 20px; transition: 0.3s; }
         
         .secao-titulo {
-            padding: 40px 5% 20px 5%;
+            /* AJUSTE 2: Alterado de 5% para 15% na esquerda para empurrar o texto para a direita */
+            padding: 40px 40% 20px 5%; 
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -124,7 +127,7 @@
             font-family: 'Baloo 2', cursive;
             font-size: 1.8rem;
             font-weight: 800;
-            margin-bottom: 8px; /* Reduzido para aproximar do botão */
+            margin-bottom: 8px;
         }
 
         .btn-instagram-orange {

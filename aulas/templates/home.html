@@ -23,11 +23,13 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--fundo-creme);
-            background-image: url('{% static "imagens/fundos.png" %}');
+            background-image: url('{% static "imagens/fundos.jpg" %}');
             background-size: cover; 
-            background-position: top center;
+            /* AJUSTE 1: Centraliza no topo para focar no desenho principal */
+            background-position: center top; 
             background-repeat: no-repeat;
-            background-attachment: scroll; 
+            /* AJUSTE 2: Trava a imagem na tela para evitar o zoom gigantesco */
+            background-attachment: fixed; 
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -57,8 +59,12 @@
         .section-title.laranja { color: #D94814; }
         .section-subtitle { color: #170909; font-size: 1.05rem; margin-bottom: 25px; font-weight: 600; }
 
-        /* Faz a div principal crescer e empurrar o rodapé */
         .conteudo-fundo { background: rgba(253, 249, 241, 0.85); backdrop-filter: blur(5px); border-radius: 40px 40px 0 0; padding: 40px 5% 20px 5%; margin-top: 30px; flex: 1; }
+
+        /* Estilos do Novo Mural de Avisos */
+        .card-recado { background: white; border-radius: 15px; padding: 20px; border-left: 5px solid var(--laranja-forte); box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .titulo-recado { font-family: 'Inter', sans-serif; font-weight: 700; color: var(--azul-marinho); font-size: 1.15rem; margin-bottom: 5px; }
+        .data-recado { font-size: 0.85rem; color: #777; font-weight: 500; }
 
         .card-custom { background: white; border-radius: 20px; padding: 25px 20px; text-align: center; height: 100%; transition: 0.3s; border: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .card-custom:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
@@ -91,7 +97,6 @@
         .btn-aula-pdf { border: 2px solid #dc3545; color: #dc3545; border-radius: 20px; font-weight: 700; transition: 0.3s; display: block; text-align: center; text-decoration: none; padding: 6px;}
         .btn-aula-pdf:hover { background-color: #dc3545; color: white;}
 
-        /* ==== NOVO RODAPÉ ESTILO RECICLA E EDUCA ==== */
         .footer-solid {
             background-color: var(--azul-marinho);
             color: white;
@@ -103,12 +108,7 @@
             width: 100%;
             margin-top: auto;
         }
-        .footer-title {
-            font-family: 'Baloo 2', cursive;
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
+        .footer-title { font-family: 'Baloo 2', cursive; font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;}
         .btn-instagram-orange {
             background-color: var(--laranja-forte);
             color: white !important;
@@ -124,32 +124,11 @@
             transition: transform 0.3s, background-color 0.3s;
             box-shadow: 0 4px 15px rgba(245, 130, 31, 0.4);
         }
-        .btn-instagram-orange:hover {
-            background-color: #d96f17;
-            transform: translateY(-3px);
-        }
-        .footer-divider {
-            width: 80%;
-            max-width: 500px;
-            height: 1px;
-            background-color: rgba(255, 255, 255, 0.15);
-            margin: 30px 0 20px 0;
-        }
-        .footer-credits {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.8;
-            margin: 0;
-        }
-        .footer-credits a {
-            color: #A78BFA; 
-            font-weight: 800;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .footer-credits a:hover {
-            text-decoration: underline;
-        }
+        .btn-instagram-orange:hover { background-color: #d96f17; transform: translateY(-3px); }
+        .footer-divider { width: 80%; max-width: 500px; height: 1px; background-color: rgba(255, 255, 255, 0.15); margin: 30px 0 20px 0; }
+        .footer-credits { font-size: 0.95rem; color: rgba(255, 255, 255, 0.8); line-height: 1.8; margin: 0; }
+        .footer-credits a { color: #A78BFA; font-weight: 800; text-decoration: none; transition: 0.3s; }
+        .footer-credits a:hover { text-decoration: underline; }
     </style>
   </head>
   <body>
@@ -257,23 +236,46 @@
         {% else %}
             
             <section class="container mb-5">
+                <h2 class="section-title laranja"><i class="fa-solid fa-bullhorn"></i> Mural de Avisos</h2>
+                <p class="section-subtitle">Fique por dentro das novidades e avisos importantes</p>
+                <div class="row g-3">
+                    {% for recado in recados %}
+                    <div class="col-12">
+                        <div class="card-recado">
+                            <h4 class="titulo-recado">{{ recado.titulo }}</h4>
+                            <span class="data-recado">Publicado em: {{ recado.data_publicacao|date:"d/m/Y \à\s H:i" }}</span>
+                            <p class="card-text text-dark mt-2 mb-0">{{ recado.conteudo|safe }}</p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <div class="alert alert-light text-center rounded-3 shadow-sm py-4 fw-medium text-muted">
+                            <i class="fa-regular fa-folder-open mb-2 d-block fs-3"></i>
+                            Nenhum aviso importante publicado no momento.
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            
+            <section class="container mb-5">
                 <h2 class="section-title">Serviços Essenciais</h2>
                 <p class="section-subtitle">Encontre informações úteis sobre:</p>
                 <div class="row g-4">
-    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-saude"><i class="fa-solid fa-heart-pulse"></i> <h3 class="card-title m-0">Saúde</h3></div><p class="card-text">Informações sobre SUS e postos.</p><a href="{% url 'detalhe_categoria' 4 %}" class="btn-card bg-saude">Saiba mais</a></div></div>
-    
-    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-educacao"><i class="fa-solid fa-book"></i> <h3 class="card-title m-0">Educação</h3></div><p class="card-text">Matrículas e escolas próximas.</p><a href="{% url 'detalhe_categoria' 7 %}" class="btn-card bg-educacao">Saiba mais</a></div></div>
-    
-    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-transporte"><i class="fa-solid fa-bus"></i> <h3 class="card-title m-0">Transporte</h3></div><p class="card-text">Rotas de ônibus e passes.</p><a href="{% url 'detalhe_categoria' 6 %}" class="btn-card bg-transporte">Saiba mais</a></div></div>
-    
-    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-docs"><i class="fa-solid fa-id-card"></i> <h3 class="card-title m-0">Documentos</h3></div><p class="card-text">Emissão de CPF, RNE e vistos.</p><a href="{% url 'detalhe_categoria' 5 %}" class="btn-card bg-docs">Saiba mais</a></div></div>
-</div>
+                    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-saude"><i class="fa-solid fa-heart-pulse"></i> <h3 class="card-title m-0">Saúde</h3></div><p class="card-text">Informações sobre SUS e postos.</p><a href="{% url 'detalhe_categoria' 4 %}" class="btn-card bg-saude">Saiba mais</a></div></div>
+                    
+                    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-educacao"><i class="fa-solid fa-book"></i> <h3 class="card-title m-0">Educação</h3></div><p class="card-text">Matrículas e escolas próximas.</p><a href="{% url 'detalhe_categoria' 7 %}" class="btn-card bg-educacao">Saiba mais</a></div></div>
+                    
+                    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-transporte"><i class="fa-solid fa-bus"></i> <h3 class="card-title m-0">Transporte</h3></div><p class="card-text">Rotas de ônibus e passes.</p><a href="{% url 'detalhe_categoria' 6 %}" class="btn-card bg-transporte">Saiba mais</a></div></div>
+                    
+                    <div class="col-12 col-md-6 col-lg-3"><div class="card-custom"><div class="icon-box text-docs"><i class="fa-solid fa-id-card"></i> <h3 class="card-title m-0">Documentos</h3></div><p class="card-text">Emissão de CPF, RNE e vistos.</p><a href="{% url 'detalhe_categoria' 5 %}" class="btn-card bg-docs">Saiba mais</a></div></div>
+                </div>
 
-<div class="text-center mt-5">
-    <a href="{% url 'index_guia' %}" class="btn-pill btn-laranja" style="font-size: 1.1rem; padding: 15px 35px;">
-        Ver todos os serviços <i class="fa-solid fa-arrow-right"></i>
-    </a>
-</div>
+                <div class="text-center mt-5">
+                    <a href="{% url 'index_guia' %}" class="btn-pill btn-laranja" style="font-size: 1.1rem; padding: 15px 35px;">
+                        Ver todos os serviços <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
             </section>
 
             <section id="aulas" class="container mb-2">
@@ -316,7 +318,9 @@
             </section>
         
         {% endif %}
-    </div> <footer class="footer-solid">
+    </div>
+
+    <footer class="footer-solid">
         <div class="footer-title">UEMS Acolhe 💛</div>
         
         <a href="https://www.instagram.com/uemsacolhe/" target="_blank" class="btn-instagram-orange">
